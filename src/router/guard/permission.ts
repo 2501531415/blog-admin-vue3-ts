@@ -1,16 +1,31 @@
 import router from '@/router'
-import type { Router } from 'vue-router';
+import type { Router,RouteRecordRaw } from 'vue-router';
+import {useUserStoreWithOut} from '@/store/modules/user'
+import {pathEnum} from '@/enum/routerEnum'
+import {usePermissionWithOut} from '@/store/modules/permission'
+
 
 export function permission(router:Router){
     router.beforeEach((to,from,next)=>{
-        if(to.path == '/login'){
+        const {token} = useUserStoreWithOut()
+        if(to.path == pathEnum.LOGIN_PATH){
             next()
         }else{
             if(token){
                 //取权限路由
+                const {getAllowRoutes,isRouterAdd,setIsRouteAdd} = usePermissionWithOut()
+
+                if(isRouterAdd){
+                    return next()
+                }
+                const allowRoutes = getAllowRoutes()
+                allowRoutes.forEach(route=>{
+                    router.addRoute((route as unknown) as RouteRecordRaw)
+                })
+                setIsRouteAdd(true)
                 next()
             }else{
-                next('/login')
+                next(pathEnum.LOGIN_PATH)
             }
         }
     })

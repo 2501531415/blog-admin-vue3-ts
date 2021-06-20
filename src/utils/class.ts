@@ -1,0 +1,7 @@
+//menu
+
+class SelectMenu{
+    constructor(){
+        
+    }
+}

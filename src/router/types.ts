@@ -17,3 +17,10 @@ interface MenuType{
     name:string,
     children?:MenuType
 }
+
+//tabs
+export interface TabsMenu{
+    name:string,
+    path:string,
+    closable:boolean,
+}

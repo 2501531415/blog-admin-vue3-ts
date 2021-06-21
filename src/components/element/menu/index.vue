@@ -1,5 +1,5 @@
 <template>
-    <el-menu :default-active="DefaultActive" :mode="mode" :background-color="BackgroundColor" :text-color="TextColor" :active-text-color="ActiveTextColor" :router="router">
+    <el-menu :default-active="DefaultActive" :mode="mode" :background-color="BackgroundColor" :text-color="TextColor" :active-text-color="ActiveTextColor" :router="router" :collapse="collapse">
         <template v-for="(item,index) in menu" :key="index">
             <el-submenu :index="item.path" v-if="item.children">
                 <template #title>
@@ -51,7 +51,10 @@
         router:{
             type:Boolean,
             default:false
+        },
+        collapse:{
+            type:Boolean as PropType<Boolean>,
+            default:false
         }
     })
-    console.log(props.menu)
 </script>

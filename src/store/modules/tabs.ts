@@ -4,7 +4,7 @@ interface tabsState{
     visitRoutes:TabsMenu[]
 }
 
-const tabsStore = defineStore({
+export const tabsStore = defineStore({
     id:'tabs',
     state():tabsState{
         return {
@@ -13,27 +13,27 @@ const tabsStore = defineStore({
     },
     actions:{
         addVisitRoute(route:TabsMenu){
-            const hasRoute = this.visitRoutes.some((item)=>item.name == route.name)
+            const hasRoute = this.visitRoutes.some((item)=>item.path == route.path)
             if(!hasRoute){
                 this.visitRoutes.push(route)
             }
         },
-        delVisitRoute(name:string){
-            const index = this.visitRoutes.findIndex(item=>item.name == name)
+        delVisitRoute(path:string){
+            const index = this.visitRoutes.findIndex(item=>item.path == path)
             if(index !== -1){
                 this.visitRoutes.splice(index,1)
             }
         },
-        delLeftVisitRoute(name:string){
-            const index = this.visitRoutes.findIndex(item=>item.name == name)
+        delLeftVisitRoute(path:string){
+            const index = this.visitRoutes.findIndex(item=>item.path == path)
             if(index !== -1){
                 this.visitRoutes.splice(0,index)
             }
         },
-        delRightVisitRoute(name:string){
-            const index = this.visitRoutes.findIndex(item=>item.name == name) 
+        delRightVisitRoute(path:string){
+            const index = this.visitRoutes.findIndex(item=>item.path == path) 
             if(index !== -1){
-                this.visitRoutes.splice(index,this.visitRoutes.length)
+                this.visitRoutes.splice(index+1,this.visitRoutes.length)
             }
         },
         delAllVisitRoute(){

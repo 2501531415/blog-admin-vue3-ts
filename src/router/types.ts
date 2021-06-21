@@ -1,5 +1,5 @@
 import type {RouteRecordRaw} from 'vue-router'
-type Meta = {
+export type Meta = {
     title:string,
     auth:string[] | string,
     icon?:string
@@ -22,5 +22,6 @@ interface MenuType{
 export interface TabsMenu{
     name:string,
     path:string,
-    closable:boolean,
+    closable?:boolean,
+    meta:Meta
 }

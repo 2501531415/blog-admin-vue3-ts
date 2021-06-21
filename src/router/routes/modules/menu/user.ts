@@ -4,7 +4,7 @@ import { LAYOUT } from '@/router/constance'
 export const userRoute:MenuRouteRecordRaw = {
     path:'/user',
     component:LAYOUT,
-    meta:{title:'用户管理',auth:'admin'},
+    meta:{title:'用户管理',auth:'admin',icon:'user'},
     redirect:'/user/index',
     children:[
         {

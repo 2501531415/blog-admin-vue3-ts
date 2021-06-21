@@ -1,17 +1,35 @@
 <template>
-    <el-tabs v-model="editableTabsValue" type="card" closable @tab-remove="removeTab">
+    <el-tabs v-model="ActiveTab" type="card" closable @tab-remove="removeTab" @tab-click="tabClick">
   <el-tab-pane
-    v-for="(item, index) in editableTabs"
+    v-for="(item, index) in tabs"
     :key="item.name"
-    :label="item.title"
-    :name="item.name"
+    :label="item.name"
+    :name="item.path"
   >
-    {{item.content}}
   </el-tab-pane>
 </el-tabs>
 </template>
 
 <script setup lang="ts">
-    import {defineProps} from 'vue'
-    import type {PropType} from 'vue'    
+    import {defineProps,defineEmit} from 'vue'
+    import type {PropType} from 'vue'
+    import type { TabsMenu } from '@router/types'
+    const props = defineProps({
+      ActiveTab:{
+        type:String || Number as PropType<string | number>,
+        default:''
+      },
+      tabs:{
+        type:Array as PropType<TabsMenu[]>,
+        default:[]
+      }
+    })
+    const emit = defineEmit(['removeTab','tabClick'])
+    
+    const removeTab = (path:string)=>{
+      emit('removeTab',path)
+    }
+    const tabClick = (e:any)=>{
+      emit('tabClick',e.props)
+    }
 </script>

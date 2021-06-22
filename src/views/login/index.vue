@@ -7,6 +7,7 @@
 <script setup lang="ts">
     import {useRouter} from 'vue-router'
     import { permissionStore } from '@/store/modules/permission'
+    import {test} from '@/model/test'
 
     const router = useRouter()
 
@@ -16,4 +17,8 @@
         permission.login()
         router.push('/')
     }
+
+    test().then(res=>{
+        console.log(res)
+    })
 </script>

@@ -4,6 +4,9 @@
             <div class="m-header-content-left">
                 <i :class="[isCollapse?'el-icon-s-unfold':'el-icon-s-fold']" @click="collapseClick"></i>
             </div>
+            <div class="m-header-content-right">
+                <screenful/>
+            </div>
         </div>
         <div class="m-header-tabs">
             <tabs :tabs="tabsData" :ActiveTab="activeTab" @removeTab="removeTab" @tabClick="tabClick"/>
@@ -20,6 +23,7 @@
     import { tabsStore } from '@/store/modules/tabs'
     import Tabs from '@/components/element/tabs/index.vue'
     import DropDown from '@/components/element/dropdown/index.vue'
+    import screenful from './components/screenfull.vue'
 
     const router = useRouter()
     const route = useRoute()
@@ -99,6 +103,7 @@
     .flex(flex){
         display: flex;
         align-items: center;
+        justify-content: space-between;
     }
     .m-header{
         background-color: #fff;
@@ -114,7 +119,6 @@
         &-tabs{
             height: 50px;
             .flex(flex);
-            justify-content: space-between;
             border: 1px solid #eee;
             border-radius: 6px;
             padding: 0px 10px;

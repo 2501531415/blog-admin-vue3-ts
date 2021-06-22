@@ -31,12 +31,16 @@
       emit('removeTab',path)
     }
     const tabClick = (e:any)=>{
+      console.log(e)
       emit('tabClick',e.props)
     }
 </script>
 
 <style scoped lang="less">
     :deep(.el-tabs__header){
-      margin:0
+      margin:0;
+    }
+    :deep(.el-tabs__item.is-active){
+      border-bottom-color:#eee!important;
     }
 </style>

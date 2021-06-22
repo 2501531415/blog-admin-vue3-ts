@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
 
-interface appState{
+interface settingState{
     isCollapse:Boolean
 }
 
-export const appStore = defineStore({
+export const settingStore = defineStore({
     id:'app',
-    state():appState{
+    state():settingState{
         return {
             isCollapse:true
         }

@@ -36,6 +36,9 @@ export const tabsStore = defineStore({
                 this.visitRoutes.splice(index+1,this.visitRoutes.length)
             }
         },
+        delOtherVisitRoute(path:string){
+            this.visitRoutes = this.visitRoutes.filter(item=>item.path == path)
+        },
         delAllVisitRoute(){
             this.visitRoutes = []
         }

@@ -1,5 +1,5 @@
 <template>
-    <el-dropdown split-button type="primary" @click="handleClick">
+    <el-dropdown split-button type="primary" :size="size" @click="handleClick" @command="menuClick">
         {{ButtonTitle}}
         <template #dropdown>
             <el-dropdown-menu>
@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-    import {defineProps} from 'vue'
+    import {defineProps,defineEmit} from 'vue'
     import type {PropType} from 'vue'
 
     type ItemType = {
@@ -18,6 +18,7 @@
         icon:string,
         command:string | number
     }
+    type SizeType = PropType<'medium' | 'small' | 'mini'>
     const props = defineProps({
         ButtonTitle:{
             type:String as PropType<string>,
@@ -26,11 +27,29 @@
         DropDownItem:{
             type:Array as PropType<ItemType[]>,
             default:[]
+        },
+        size:{
+            type:String as SizeType,
+            default:''
         }
+        
     })
 
-    const handleClick = ()=>{
-        console.log('555')
+    const emit = defineEmit({'menuClick':(command:string)=>{
+        if(!command){
+            return false
+        }else{
+            return true
+        }
+    }})
+
+    //按钮点击
+    const handleClick = ():void=>{
+       console.log(44)
     }
-    console.log(props)
+
+    //下拉菜单item点击
+    const menuClick = (command:string):void=>{
+        emit('menuClick',command)
+    }
 </script>

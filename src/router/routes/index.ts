@@ -8,7 +8,7 @@ const modules = import.meta.globEager('./modules/**/*.ts')
 export const menuRoutes:MenuRouteRecordRaw[] = []
 Object.keys(modules).forEach(item=>{
     const route = modules[item].default?modules[item].default:{}
-    menuRoutes.push(route)
+    menuRoutes.unshift(route)
 });
 
 const loginRoute:RouteRecordRaw = {

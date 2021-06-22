@@ -5,12 +5,17 @@ export const userRoute:MenuRouteRecordRaw = {
     path:'/user',
     component:LAYOUT,
     meta:{title:'用户管理',auth:'admin',icon:'user'},
-    redirect:'/user/index',
+    redirect:'/user/acount',
     children:[
         {
-            path:'/user/index',
+            path:'/user/acount',
             component:()=>import('@/views/user/index.vue'),
             meta:{title:'账号管理',auth:'admin'}
+        },
+        {
+            path:'/user/loginLog',
+            component:()=>import('@/views/user/index.vue'),
+            meta:{title:'登录日志',auth:'admin'}
         }
     ]
 }

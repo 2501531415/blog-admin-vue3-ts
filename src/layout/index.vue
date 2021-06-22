@@ -17,13 +17,13 @@
 
 <script setup lang="ts">
     import {computed} from 'vue'
-    import {appStore} from '@/store/modules/app'
+    import {settingStore} from '@/store/modules/setting'
     import Asdie from './aside/index.vue'
     import MHeader from './header/index.vue'
-    const app = appStore()
+    const setting = settingStore()
 
     //菜单是否折叠
-    const isCollapse = computed(()=>app.isCollapse)
+    const isCollapse = computed(()=>setting.isCollapse)
     
 </script>
 

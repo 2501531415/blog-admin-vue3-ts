@@ -14,6 +14,7 @@
     import {defineProps,defineEmit} from 'vue'
     import type {PropType} from 'vue'
     import type { TabsMenu } from '@router/types'
+
     const props = defineProps({
       ActiveTab:{
         type:String || Number as PropType<string | number>,
@@ -33,3 +34,9 @@
       emit('tabClick',e.props)
     }
 </script>
+
+<style scoped lang="less">
+    :deep(.el-tabs__header){
+      margin:0
+    }
+</style>

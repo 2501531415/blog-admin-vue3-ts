@@ -2,7 +2,8 @@ import type {RouteRecordRaw} from 'vue-router'
 export type Meta = {
     title:string,
     auth:string[] | string,
-    icon?:string
+    icon?:string,
+    isHide?:Boolean
 }
 
 //重写meta的类型

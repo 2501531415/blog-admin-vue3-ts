@@ -11,11 +11,6 @@ export const userRoute:MenuRouteRecordRaw = {
             path:'/user/acount',
             component:()=>import('@/views/user/index.vue'),
             meta:{title:'账号管理',auth:'admin'}
-        },
-        {
-            path:'/user/loginLog',
-            component:()=>import('@/views/user/index.vue'),
-            meta:{title:'登录日志',auth:'admin'}
         }
     ]
 }

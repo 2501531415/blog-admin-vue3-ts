@@ -6,16 +6,18 @@
                     <span>Hello!</span>
                 </div>
                 <div class="m-login-form-sub">
-                    <span>3334444444444444</span>
+                    <span>欢迎来到m-blog</span>
                 </div>
-                <el-form v-module="state.info" :rules="rules">
-                    <el-form-item prop="usernmae" label="账号">
-                        <el-input type="text" v-model="state.info.username"/>
+                <el-form ref="loginForm" :model="state.info" :rules="state.rules">
+                    <el-form-item prop="username">
+                        <el-input  v-model="state.info.username" clearable prefix-icon="el-icon-user"/>
                     </el-form-item>
-                    <el-form-item prop="password" label="密码">
-                        <el-input type="password" v-model="state.info.password"/>
+                    <el-form-item prop="password">
+                        <el-input v-model="state.info.password" show-password clearable prefix-icon="el-icon-lock"/>
                     </el-form-item>
-                    <el-button type="primary" @click="login">登录</el-button>
+                    <el-form-item>
+                        <el-button type="primary" @click="login">登录</el-button>
+                    </el-form-item>
                 </el-form>
             </div>
         </el-col>
@@ -24,35 +26,37 @@
 
 <script setup lang="ts">
     import {useRouter} from 'vue-router'
-    import { permissionStore } from '@/store/modules/permission'
-    import {test} from '@/api/user'
-    import { reactive } from 'vue'
-    import type {RuleItem} from 'element-plus'
+    import { userStore } from '@/store/modules/user'
+    import { reactive,ref } from 'vue'
+    import type {Ref} from 'vue'
+
+    const router = useRouter()
+    const user = userStore()
 
     const state = reactive({
         info:{
             username:'admin',
             password:'123456'
+        },
+        rules:{
+            username:[
+                {required:true,message:'请输入账号',trigger:'blur'},
+                {min:5,message:'账号长度不少于5个字符',trigger:'blur'}
+            ],
+            password:[
+                {required:true,message:'请输入密码',trigger:'blur'},
+                {min:6,message:'密码长度不少于6个字符',trigger:'blur'}
+            ]
         }
     })
 
-    // const usernameValid = (rule,value,callback)=>{
-
-    // }
-    const rules = {
-        username:[
-            {required:true,message:'请输入账号',trigger:'blur'},
-            {validator:usernameValid,message:'账号长度不少于6个字符',trigger:'blur'}
-        ]
-    }
-
-    const router = useRouter()
-
-    const permission = permissionStore()
+    const loginForm:any = ref(null)
 
     const login = ()=>{
-        permission.login()
-        router.push('/')
+        loginForm.value.validate((isValid:Boolean)=>{
+            if(!isValid) return alert('error')
+            user.login(state.info)
+        })
     }
 
     // const {data} = await test()
@@ -71,8 +75,12 @@
             font-weight: 500;
         }
         &-sub{
-            font-size: 36px;
-            margin-top: 30px;
+            font-size: 30px;
+            margin:30px 0px;
+        }
+        .el-button{
+            width:100%;
+            height:52px;
         }
     }
 </style>

@@ -18,13 +18,6 @@ export const permissionStore = defineStore({
         }
     },
     actions:{
-        async login(){
-            const user = userStore()
-            user.$patch((state)=>{
-                state.token = '6666',
-                state.role = 0
-            })
-        },
         getAllowRoutes(){
             const routes = this.transformRoute(menuRoutes)
             this.allowRoutes = routes

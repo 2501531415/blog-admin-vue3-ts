@@ -4,22 +4,24 @@ enum User{
     LOGIN = '/login'
 }
 
-interface adminInfo{
+export interface UserInfo{
     admin_id:string,
     avatar:string,
     username:string
 }
 
 interface LoginModel{
-    adminInfo:adminInfo,
+    adminInfo:UserInfo,
     err_code:number,
     message:string,
     token:string
 }
 
-export function test(){
-    return http.post<LoginModel>(User.LOGIN,{
-        username:'admin',
-        password:'123456'
-    })
+export interface LoginParams{
+    username:string | number,
+    password:string | number
+}
+
+export function login(params:LoginParams){
+    return http.post<LoginModel>(User.LOGIN,params)
 }

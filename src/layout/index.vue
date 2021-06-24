@@ -38,7 +38,7 @@
     }
     .el-aside{
         position: fixed;
-        background-color: #545c64;
+        background-color: #393D49;
     }
     .el-main{
         overflow: initial;

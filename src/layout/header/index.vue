@@ -6,11 +6,16 @@
             </div>
             <div class="m-header-content-right">
                 <screenful/>
+                <login-info/>
             </div>
         </div>
         <div class="m-header-tabs">
             <tabs :tabs="tabsData" :ActiveTab="activeTab" @removeTab="removeTab" @tabClick="tabClick"/>
-            <drop-down ButtonTitle="刷新当前" size="medium" :DropDownItem="state.dropdownItem" @menuClick="menuClick"/>
+            <drop-down split-button size="medium" :DropDownItem="state.dropdownItem" @menuClick="menuClick">
+                <template #title>
+                    <span>刷新当前</span>
+                </template>
+            </drop-down>
         </div>
     </div>
 </template>
@@ -24,6 +29,7 @@
     import Tabs from '@/components/element/tabs/index.vue'
     import DropDown from '@/components/element/dropdown/index.vue'
     import screenful from './components/screenfull.vue'
+    import LoginInfo from './components/loginInfo.vue'
 
     const router = useRouter()
     const route = useRoute()
@@ -114,6 +120,9 @@
                 i{
                     font-size:24px;
                 }
+            }
+            &-right{
+                .flex(flex);
             }
         }
         &-tabs{

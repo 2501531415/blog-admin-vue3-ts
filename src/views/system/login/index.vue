@@ -15,6 +15,9 @@
   @name:~'@{namespace}-login';
   .@{name}{
     height: 100%;
+    background-image: url('@/assets/login_bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 
   

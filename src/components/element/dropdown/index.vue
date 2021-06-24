@@ -1,6 +1,8 @@
 <template>
-    <el-dropdown split-button type="primary" :size="size" @click="handleClick" @command="menuClick">
-        {{ButtonTitle}}
+    <el-dropdown type="primary" :size="size" @click="handleClick" @command="menuClick">
+        <slot name="title">
+            更多菜单
+        </slot>
         <template #dropdown>
             <el-dropdown-menu>
                 <el-dropdown-item :command="item.command" :icon="item.icon" v-for="item in DropDownItem" :key="item">{{item.name}}</el-dropdown-item>
@@ -15,14 +17,14 @@
 
     type ItemType = {
         name:string,
-        icon:string,
+        icon?:string,
         command:string | number
     }
     type SizeType = PropType<'medium' | 'small' | 'mini'>
     const props = defineProps({
-        ButtonTitle:{
-            type:String as PropType<string>,
-            default:'更多菜单'
+        SplitButton:{
+            type:Boolean as PropType<Boolean>,
+            default:true
         },
         DropDownItem:{
             type:Array as PropType<ItemType[]>,

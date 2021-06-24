@@ -1,5 +1,6 @@
 import axios from "axios";
 import qs from 'qs'
+import { ElMessage } from "element-plus";
 import type {AxiosRequestConfig,AxiosResponse,AxiosInstance} from 'axios'
 
 class Http{
@@ -19,8 +20,17 @@ class Http{
         })
 
         this.instance.interceptors.response.use((res:AxiosResponse):AxiosResponse=>{
-            console.log(res)
+           //console.log(res)
             //if error show error message
+            const {data} = res
+            switch(data.err_code){
+                case 201:
+                    ElMessage.error(data.message?data.message:'请求失败！')
+                    break;
+                case 404:
+                    ElMessage.error(data.message?data.message:'参数错误！')
+                    break;    
+            }
             return res
         })
     }

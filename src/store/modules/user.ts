@@ -14,14 +14,19 @@ export const userStore = defineStore({
         return {
             userInfo:null,
             token:null,
-            role:2
+            role:0
         }
     },
     actions:{
-        async login(params:LoginParams){
-            const {token,adminInfo} = await login(params)
-            this.userInfo = adminInfo
-            this.setToken(token)
+        async login(params:LoginParams):Promise<UserInfo | null>{
+            try{
+                const {token,adminInfo} = await login(params)
+                this.userInfo = adminInfo
+                this.setToken(token)
+                return Promise.resolve(adminInfo)
+            }catch(err){
+                return Promise.reject(err)
+            } 
         },
         setToken(token:string){
             this.token = token

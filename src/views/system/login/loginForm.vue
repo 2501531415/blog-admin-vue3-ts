@@ -6,7 +6,7 @@
                     <span>Hello!</span>
                 </div>
                 <div class="m-login-form-sub">
-                    <span>欢迎来到m-blog</span>
+                    <span>欢迎来到m-blog!</span>
                 </div>
                 <el-form ref="loginForm" :model="state.info" :rules="state.rules">
                     <el-form-item prop="username">
@@ -16,7 +16,7 @@
                         <el-input v-model="state.info.password" show-password clearable prefix-icon="el-icon-lock"/>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" @click="login">登录</el-button>
+                        <el-button type="primary" @click="login" :loading="loading">登录</el-button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -28,7 +28,7 @@
     import {useRouter} from 'vue-router'
     import { userStore } from '@/store/modules/user'
     import { reactive,ref } from 'vue'
-    import type {Ref} from 'vue'
+    import { ElMessage,ElNotification } from 'element-plus'
 
     const router = useRouter()
     const user = userStore()
@@ -51,11 +51,25 @@
     })
 
     const loginForm:any = ref(null)
+    const loading = ref(false)
 
     const login = ()=>{
-        loginForm.value.validate((isValid:Boolean)=>{
+        loading.value = true
+        loginForm.value.validate(async (isValid:Boolean)=>{
             if(!isValid) return alert('error')
-            user.login(state.info)
+            const userInfo = await user.login(state.info)
+            console.log(userInfo)
+            loading.value = false
+            if(userInfo){
+                await router.replace('/')
+                ElNotification({
+                    type:'success',
+                    title:'登录成功',
+                    message:`${userInfo.username},欢迎回来！`
+                })
+            }else{
+                ElMessage.error('登录失败！')
+            }
         })
     }
 
@@ -71,11 +85,11 @@
     .@{name}{
         color:#0e121a;
         &-title{
-            font-size:50px;
+            font-size:56px;
             font-weight: 500;
         }
         &-sub{
-            font-size: 30px;
+            font-size: 26px;
             margin:30px 0px;
         }
         .el-button{

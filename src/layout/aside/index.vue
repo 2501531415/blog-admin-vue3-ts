@@ -1,7 +1,7 @@
 <template>
     <div class="m-aside">
         <logo :isCollapse="isCollapse"/>
-        <m-menu :menu="allowRoutes" :router="true" :collapse="isCollapse" background-color="#545c64" text-color="#fff"/>
+        <m-menu :menu="allowRoutes" :router="true" :collapse="isCollapse" background-color="#393D49" text-color="#fff"/>
     </div>
 </template>
 

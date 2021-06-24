@@ -14,7 +14,7 @@ Object.keys(modules).forEach(item=>{
 const loginRoute:RouteRecordRaw = {
     name:'login',
     path:pathEnum.LOGIN_PATH,
-    component:()=>import('@/views/login/index.vue')
+    component:()=>import('@/views/system/login/index.vue')
 }
 
 const layoutRoute:RouteRecordRaw = {

@@ -23,6 +23,16 @@ export default ({command,mode}:ConfigEnv):UserConfig=>{
         ]
       })
     ],
+    css:{
+      preprocessorOptions:{
+        less:{
+          modifyVars:{
+            hack: `true; @import (reference) "${resolve('src/style/config.less')}";`,
+          },
+          javascriptEnabled:true
+        }
+      }
+    },
     resolve:{
       alias:[
         {find:'@',replacement:resolve(__dirname,'src')}

@@ -3,8 +3,8 @@
         <el-aside :width="isCollapse?'65px':'300px'" class="m-transition">
             <Asdie></Asdie>
         </el-aside>
-        <el-container :class="[isCollapse?'m-layout-margin-collapse':'m-layout-margin','m-transition']">
-            <el-header :class="[isCollapse?'m-header-width-collapse':'m-header-width']">
+        <el-container :class="[isCollapse?'m-layout-margin-collapse':'m-layout-margin']">
+            <el-header :class="[isCollapse?'m-header-width-collapse':'m-header-width','m-transition']">
                 <m-header></m-header>
             </el-header>
             <el-main>
@@ -51,13 +51,15 @@
         margin-left:64px;
     }
     .m-header-width{
-        width:calc(100vw - 300px);
+        width:calc(100% - 300px);
+        left:300px;
     }
     .m-header-width-collapse{
-        width:calc(100vw - 64px);
+        width:calc(100% - 64px);
+        left:64px;
     }
     .m-transition{
-        transition: all 0.8s ease-in-out;
+        transition: all .8s ease-in-out;
     }
 
 </style>

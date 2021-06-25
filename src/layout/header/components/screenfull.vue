@@ -35,6 +35,7 @@
 
 <style scoped lang="less">
     .m-screenfull{
+        margin-right:15px;
         i{
             font-size: 24px;
         }

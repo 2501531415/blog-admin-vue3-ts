@@ -3,7 +3,7 @@
             <template #title>
                <div class="m-login-info">
                     <img :src="'http://blog.wmyy.fun/'+avatar" alt="">
-                    <span class="el-dropdown-link">
+                    <span>
                         下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
                </div>

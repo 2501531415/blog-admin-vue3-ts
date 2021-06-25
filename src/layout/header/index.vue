@@ -3,6 +3,7 @@
         <div class="m-header-content">
             <div class="m-header-content-left">
                 <i :class="[isCollapse?'el-icon-s-unfold':'el-icon-s-fold']" @click="collapseClick"></i>
+                <breakcrumb/>
             </div>
             <div class="m-header-content-right">
                 <screenful/>
@@ -30,6 +31,7 @@
     import DropDown from '@/components/element/dropdown/index.vue'
     import screenful from './components/screenfull.vue'
     import LoginInfo from './components/loginInfo.vue'
+    import breakcrumb from './components/breadcrumb.vue'
 
     const router = useRouter()
     const route = useRoute()
@@ -117,8 +119,11 @@
             height:60px;
             .flex(flex);
             &-left{
+                display: flex;
+                align-items: center;
                 i{
                     font-size:24px;
+                    margin-right:10px;
                 }
             }
             &-right{

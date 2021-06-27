@@ -6,7 +6,7 @@ import {usePermissionWithOut} from '@/store/modules/permission'
 
 
 export function permission(router:Router){
-    router.beforeEach((to,from,next)=>{
+    router.beforeEach(async (to,from,next)=>{
         const {token} = useUserStoreWithOut()
         if(to.path == pathEnum.LOGIN_PATH){
             next()
@@ -18,12 +18,12 @@ export function permission(router:Router){
                 if(isRouterAdd){
                     return next()
                 }
-                const allowRoutes = getAllowRoutes()
+                const allowRoutes = await getAllowRoutes()
                 allowRoutes.forEach(route=>{
                     router.addRoute((route as unknown) as RouteRecordRaw)
                 })
                 setIsRouteAdd(true)
-                next()
+                next({path:to.path})
             }else{
                 next(pathEnum.LOGIN_PATH)
             }

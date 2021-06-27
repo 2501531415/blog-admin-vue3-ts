@@ -5,6 +5,7 @@
     :key="item.name"
     :label="item.name"
     :name="item.path"
+    :closable="!item.closable"
   >
   </el-tab-pane>
 </el-tabs>

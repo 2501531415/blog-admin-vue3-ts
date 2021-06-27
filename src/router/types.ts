@@ -4,10 +4,12 @@ export type Meta = {
     auth:string[] | string,
     icon?:string,
     isHide?:Boolean
+    closable?:boolean,
 }
 
 //重写meta的类型
 export interface MenuRouteRecordRaw extends Omit<RouteRecordRaw,'meta'|'children'>{
+    orderNo?:number,
     meta:Meta,
     children?:MenuRouteRecordRaw[]
 }

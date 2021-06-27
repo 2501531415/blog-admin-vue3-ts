@@ -6,6 +6,7 @@ export const profileRoute:MenuRouteRecordRaw = {
     component:LAYOUT,
     meta:{title:'个人中心',auth:['admin','user'],icon:'s-custom',isHide:true},
     redirect:'/profile/index',
+    orderNo:20,
     children:[
         {
             path:'/profile/index',

@@ -17,6 +17,15 @@ export const permissionStore = defineStore({
             isRouterAdd:false
         }
     },
+    getters:{
+        sortAllowRoutes():MenuRouteRecordRaw[]{
+            return this.allowRoutes.sort((obj1:MenuRouteRecordRaw,obj2:MenuRouteRecordRaw):number=>{
+                const a = obj1.orderNo as number
+                const b = obj2.orderNo as number
+                return a -b
+            })
+        }
+    },
     actions:{
         getAllowRoutes(){
             const routes = this.transformRoute(menuRoutes)
@@ -40,6 +49,20 @@ export const permissionStore = defineStore({
         },
         setIsRouteAdd(add:Boolean){
             this.isRouterAdd = add
+        },
+        getParentList(path:string){
+            const list:string[] = []
+            this.allowRoutes.forEach(item=>{
+                if(item.children){
+                    const child = item.children.filter(item=>item.path == path)
+                    if(child.length > 0 && !item.meta.isHide){
+                        list.push(...[item.meta.title,child[0].meta.title])
+                    }else if(child.length > 0){
+                        list.push(child[0].meta.title)
+                    }
+                }
+            })
+            return list
         }
     }
     

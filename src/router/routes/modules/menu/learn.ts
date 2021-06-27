@@ -6,6 +6,7 @@ export const learnRoute:MenuRouteRecordRaw = {
     component:LAYOUT,
     meta:{title:'学习管理',auth:['admin','user'],icon:'notebook-1'},
     redirect:'/learn/manage',
+    orderNo:20,
     children:[
         {
             path:'/learn/manage',

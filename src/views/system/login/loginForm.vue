@@ -61,7 +61,7 @@
             console.log(userInfo)
             loading.value = false
             if(userInfo){
-                await router.replace('/')
+                await router.replace('/dashboard')
                 ElNotification({
                     type:'success',
                     title:'登录成功',

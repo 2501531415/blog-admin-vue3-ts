@@ -6,6 +6,7 @@ export const logRoute:MenuRouteRecordRaw = {
     component:LAYOUT,
     meta:{title:'日志管理',auth:'admin',icon:'chat-line-round'},
     redirect:'/log/login',
+    orderNo:20,
     children:[
         {
             path:'/log/login',

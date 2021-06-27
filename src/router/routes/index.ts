@@ -1,7 +1,7 @@
 import type {RouteRecordRaw} from 'vue-router'
 import type {MenuRouteRecordRaw} from '@/router/types'
 import {pathEnum} from '@/enum/routerEnum'
-
+import { LAYOUT } from '@/router/constance'
 //使用import.meta.globEager导入module下所有的路由
 const modules = import.meta.globEager('./modules/**/*.ts')
 
@@ -20,8 +20,7 @@ const loginRoute:RouteRecordRaw = {
 const layoutRoute:RouteRecordRaw = {
     name:'layout',
     path:'/',
-    component:()=>import('@/layout/index.vue'),
-    //redirect:'/user'
+    redirect:'/dashboard',
 }
 
 export const baseRoute:RouteRecordRaw[] = [

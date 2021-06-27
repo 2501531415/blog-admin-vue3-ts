@@ -6,6 +6,7 @@ export const userRoute:MenuRouteRecordRaw = {
     component:LAYOUT,
     meta:{title:'关于',auth:'admin',icon:'warning-outline',isHide:true},
     redirect:'/about/index',
+    orderNo:50,
     children:[
         {
             path:'index',

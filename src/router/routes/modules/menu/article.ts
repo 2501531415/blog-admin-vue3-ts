@@ -6,6 +6,7 @@ export const articleRoute:MenuRouteRecordRaw = {
     component:LAYOUT,
     meta:{title:'文章管理',auth:['admin','user'],icon:'reading'},
     redirect:'/article/manage',
+    orderNo:20,
     children:[
         {
             path:'/article/manage',

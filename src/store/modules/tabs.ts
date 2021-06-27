@@ -8,7 +8,8 @@ export const tabsStore = defineStore({
     id:'tabs',
     state():tabsState{
         return {
-            visitRoutes:[]
+            visitRoutes:[],
+            // breadcrumbs:[]
         }
     },
     actions:{

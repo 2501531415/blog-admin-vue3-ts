@@ -1,5 +1,5 @@
 import {ElButton,ElIcon,ElContainer,ElAside,ElMain,ElHeader,ElFooter,ElMenu,ElMenuItem,ElSubmenu,ElTabs,ElTabPane,ElDropdown,ElDropdownItem,
-ElDropdownMenu,ElForm,ElFormItem,ElInput,ElRow,ElCol,ElBreadcrumb,ElBreadcrumbItem} from 'element-plus'
+ElDropdownMenu,ElForm,ElFormItem,ElInput,ElRow,ElCol,ElBreadcrumb,ElBreadcrumbItem,ElTable,ElTableColumn,ElTag,ElCard,ElPagination} from 'element-plus'
 import type {App} from 'vue'
 
 const components = [
@@ -24,7 +24,12 @@ const components = [
     ElRow,
     ElCol,
     ElBreadcrumb,
-    ElBreadcrumbItem
+    ElBreadcrumbItem,
+    ElTable,
+    ElTableColumn,
+    ElTag,
+    ElCard,
+    ElPagination
 ]
 
 export function setupElementUI(app:App){

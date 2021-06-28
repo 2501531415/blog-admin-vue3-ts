@@ -35,7 +35,7 @@
 
     const state = reactive({
         info:{
-            username:'admin',
+            username:'zwmzyy',
             password:'123456'
         },
         rules:{

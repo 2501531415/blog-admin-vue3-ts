@@ -8,15 +8,15 @@ class Http{
     public instance:AxiosInstance
     constructor(){
         this.instance = axios.create({
-            baseURL:'http://blog.wmyy.fun/api/v2',
+            baseURL:import.meta.env.DEV?'http://127.0.0.1:3001/api/v2':'http://blog.wmyy.fun/api/v2',
             timeout:5000
         })
         this.setupInterceptor()
     }
     setupInterceptor(){
         this.instance.interceptors.request.use((config:AxiosRequestConfig):AxiosRequestConfig=>{
-            const {token} = userStore()
-            if(token) config.headers['token'] = token
+            const {getToken} = userStore()
+            if(getToken) config.headers['token'] = getToken
             config.data = qs.stringify(config.data)
             //add token
             return config

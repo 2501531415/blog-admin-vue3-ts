@@ -1,4 +1,5 @@
 import http from '@/utils/http'
+import {UserModel} from './model/userModel'
 
 enum User{
     LOGIN = '/login',
@@ -28,5 +29,5 @@ export function login(params:LoginParams){
 }
 
 export function userList(){
-    return http.post<any>(User.List)
+    return http.post<UserModel>(User.List)
 }

@@ -64,7 +64,6 @@
             meta:route.meta as Meta,
             closable:route.meta.closable as boolean
         }
-        console.log(tab)
         tabs.addVisitRoute(tab)
     }
     //tab移除

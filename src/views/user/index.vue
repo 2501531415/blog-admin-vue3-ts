@@ -3,3 +3,11 @@
         user
     </div>
 </template>
+
+<script setup lang="ts">
+    import {userList} from '@/api/user'
+    // userList().then(res=>{
+    //     console.log(res)
+    // })
+
+</script>

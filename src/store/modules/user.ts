@@ -2,6 +2,8 @@ import {defineStore} from 'pinia'
 import pinia from '@/store'
 import {login} from '@/api/user'
 import type {LoginParams,UserInfo} from '@/api/user'
+import { TOKEN_KEY,USERINFO_KEY } from '@/enum/cacheEnum'
+import cache from '@/utils/cache'
 
 interface userState{
     userInfo:UserInfo | null,
@@ -17,11 +19,19 @@ export const userStore = defineStore({
             role:0
         }
     },
+    getters:{
+        getToken():string{
+            return this.token || JSON.parse(cache.get(TOKEN_KEY) as string)
+        },
+        getUserInfo():UserInfo{
+            return this.userInfo || JSON.parse(cache.get(USERINFO_KEY) as string)
+        }
+    },
     actions:{
         async login(params:LoginParams):Promise<UserInfo | null>{
             try{
                 const {token,adminInfo} = await login(params)
-                this.userInfo = adminInfo
+                this.setUserInfo(adminInfo)
                 this.setToken(token)
                 return Promise.resolve(adminInfo)
             }catch(err){
@@ -30,9 +40,17 @@ export const userStore = defineStore({
         },
         setToken(token:string){
             this.token = token
+            cache.set(TOKEN_KEY,token)
+        },
+        setUserInfo(info:UserInfo){
+            this.userInfo = info
+            cache.set(USERINFO_KEY,info)
         },
         cleanToken(){
             this.token = null
+            this.userInfo = null
+            this.role = 0
+            cache.removeAll()
         }
     }
 })

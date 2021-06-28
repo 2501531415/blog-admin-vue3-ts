@@ -1,11 +1,11 @@
 <template>
-    <el-tabs v-model="ActiveTab" type="card" closable @tab-remove="removeTab" @tab-click="tabClick">
+    <el-tabs v-model="ActiveTab" type="card" @tab-remove="removeTab" @tab-click="tabClick">
   <el-tab-pane
     v-for="(item, index) in tabs"
     :key="item.name"
     :label="item.name"
     :name="item.path"
-    :closable="!item.closable"
+    :closable="item.closable??true"
   >
   </el-tab-pane>
 </el-tabs>

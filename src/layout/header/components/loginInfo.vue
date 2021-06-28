@@ -1,32 +1,46 @@
 <template>
-        <drop-down :split-button="false"  :DropDownItem="state.dropItem">
-            <template #title>
-               <div class="m-login-info">
-                    <img :src="'http://blog.wmyy.fun/'+avatar" alt="">
-                    <span>
-                        {{username}}<i class="el-icon-arrow-down el-icon--right"></i>
-                    </span>
-               </div>
-            </template>
-        </drop-down>
-    
+    <drop-down :DropDownItem="state.dropItem" @menuClick="menuClick">
+        <template #title>
+           <div class="m-login-info">
+                <img :src="'http://blog.wmyy.fun/'+avatar" alt="">
+                <span>
+                    {{username}}<i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+           </div>
+        </template>
+    </drop-down>
 </template>
 
 <script setup lang="ts">
     import {userStore} from '@/store/modules/user'
 
     import {computed,reactive} from 'vue'
+    import {useRouter} from 'vue-router'
 
     import DropDown from '@/components/element/dropdown/index.vue'
 
     const user = userStore()
+    const router = useRouter()
 
     const state = reactive({
         dropItem:[{name:'退出登录',command:'login',icon:'el-icon-user'}]
     })
 
-    const avatar = computed(()=>user.userInfo?.avatar)
-    const username = computed(()=>user.userInfo?.username)
+    const avatar = computed(()=>user.getUserInfo?.avatar)
+    const username = computed(()=>user.getUserInfo?.username)
+
+    const menuClick = (command:string)=>{
+        switch(command){
+            case 'login':
+            logout()
+            break;
+        }
+    }
+
+    const logout = ()=>{
+        user.cleanToken()
+        router.push('/login')
+    }
 
 
 </script>

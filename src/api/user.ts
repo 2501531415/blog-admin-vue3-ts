@@ -1,7 +1,8 @@
 import http from '@/utils/http'
 
 enum User{
-    LOGIN = '/login'
+    LOGIN = '/login',
+    List = '/admin'
 }
 
 export interface UserInfo{
@@ -24,4 +25,8 @@ export interface LoginParams{
 
 export function login(params:LoginParams){
     return http.post<LoginModel>(User.LOGIN,params)
+}
+
+export function userList(){
+    return http.post<any>(User.List)
 }

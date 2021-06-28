@@ -57,7 +57,6 @@
         })
     }
     //init tab
-    console.log(route)
     const initTab = ()=>{
         const tab:TabsMenu = {
             name:route.meta.title as string,
@@ -65,11 +64,11 @@
             meta:route.meta as Meta,
             closable:route.meta.closable as boolean
         }
+        console.log(tab)
         tabs.addVisitRoute(tab)
     }
     //tab移除
     const removeTab = (path:string)=>{
-        console.log(path)
         if(isActive(path)){
             nextTab(path)
         }

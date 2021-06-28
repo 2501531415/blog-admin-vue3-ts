@@ -1,6 +1,7 @@
 import axios from "axios";
 import qs from 'qs'
 import { ElMessage } from "element-plus";
+import { userStore } from "@/store/modules/user";
 import type {AxiosRequestConfig,AxiosResponse,AxiosInstance} from 'axios'
 
 class Http{
@@ -14,6 +15,8 @@ class Http{
     }
     setupInterceptor(){
         this.instance.interceptors.request.use((config:AxiosRequestConfig):AxiosRequestConfig=>{
+            const {token} = userStore()
+            if(token) config.headers['token'] = token
             config.data = qs.stringify(config.data)
             //add token
             return config

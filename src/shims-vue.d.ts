@@ -5,3 +5,5 @@ declare module '*.vue' {
 }
 
 declare module 'qs'
+
+declare module 'nprogress'

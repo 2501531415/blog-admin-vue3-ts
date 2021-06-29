@@ -39,6 +39,10 @@
 <style scoped lang="less">
     :deep(.el-tabs__header){
       margin:0;
+      border-bottom: none;
+      .el-tabs__item{
+        border-bottom: 1px solid #eee;
+      }
     }
     :deep(.el-tabs__item.is-active){
       border-bottom-color:#eee!important;

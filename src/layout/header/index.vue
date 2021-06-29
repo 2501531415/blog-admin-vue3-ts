@@ -149,8 +149,6 @@
         &-tabs{
             height: 50px;
             .flex(flex);
-            border: 1px solid #eee;
-            border-radius: 6px;
             padding: 0px 10px;
             &-tab{
                 flex: 1;

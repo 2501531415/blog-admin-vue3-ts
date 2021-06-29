@@ -103,6 +103,7 @@
 
 <style scoped lang="less">
     .m-user{
+        min-height: calc(100vh - 205px);
         &-search{
             margin-bottom: 10px;
         }

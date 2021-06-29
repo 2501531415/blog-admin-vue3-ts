@@ -8,7 +8,7 @@ class Http{
     public instance:AxiosInstance
     constructor(){
         this.instance = axios.create({
-            baseURL:import.meta.env.DEV?'http://127.0.0.1:3001/api/v2':'http://blog.wmyy.fun/api/v2',
+            baseURL:import.meta.env.VITE_IS_LOCAL == 'local'?'http://127.0.0.1:3001/api/v2':'http://blog.wmyy.fun/api/v2',
             timeout:5000
         })
         this.setupInterceptor()

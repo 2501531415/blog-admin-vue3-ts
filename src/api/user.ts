@@ -1,9 +1,10 @@
 import http from '@/utils/http'
-import {UserModel} from './model/userModel'
+import {UserModel,AddUserParams,AddUserModel} from './model/userModel'
 
 enum User{
     LOGIN = '/login',
-    List = '/admin'
+    LIST = '/admin',
+    ADD = '/add'
 }
 
 export interface UserInfo{
@@ -28,6 +29,10 @@ export function login(params:LoginParams){
     return http.post<LoginModel>(User.LOGIN,params)
 }
 
-export function userList(){
-    return http.post<UserModel>(User.List)
+export function userListApi(query?:string){
+    return http.post<UserModel>(User.LIST,{query})
+}
+
+export function addUserApi(params:AddUserParams){
+    return http.post<AddUserModel>(User.ADD,params)
 }

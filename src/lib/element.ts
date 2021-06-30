@@ -1,5 +1,6 @@
 import {ElButton,ElIcon,ElContainer,ElAside,ElMain,ElHeader,ElFooter,ElMenu,ElMenuItem,ElSubmenu,ElTabs,ElTabPane,ElDropdown,ElDropdownItem,
-ElDropdownMenu,ElForm,ElFormItem,ElInput,ElRow,ElCol,ElBreadcrumb,ElBreadcrumbItem,ElTable,ElTableColumn,ElTag,ElCard,ElPagination,ElDialog,ElSelect,ElOption,locale} from 'element-plus'
+ElDropdownMenu,ElForm,ElFormItem,ElInput,ElRow,ElCol,ElBreadcrumb,ElBreadcrumbItem,ElTable,ElTableColumn,ElTag,ElCard,ElPagination,ElDialog,ElSelect,ElOption,
+ElUpload,locale} from 'element-plus'
 import type {App} from 'vue'
 import zh_CN from 'element-plus/lib/locale/lang/zh-cn'
 
@@ -33,7 +34,8 @@ const components = [
     ElPagination,
     ElDialog,
     ElSelect,
-    ElOption
+    ElOption,
+    ElUpload
 ]
 
 export function setupElementUI(app:App){

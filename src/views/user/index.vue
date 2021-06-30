@@ -50,7 +50,7 @@
                 :total="400">
             </el-pagination>
         </div>
-        <Dialog title="添加管理员" :DialogVisible="addUserDialogVisible" width="30%" @cancle="addUserDialogCancel" @closed="addUserDialogClosed" @sure="addUserSubmit">
+        <Dialog title="添加管理员" :DialogVisible="addUserDialogVisible" width="30%" top="10vh" @cancle="addUserDialogCancel" @closed="addUserDialogClosed" @sure="addUserSubmit">
             <el-form :model="addUserForm" label-width="80px" label-position="left" :rules="rules">
                 <el-form-item label="用户名" prop="username">
                     <el-input v-model="addUserForm.username"></el-input>
@@ -71,6 +71,9 @@
                         <el-option label="游客" value="2"></el-option>
                     </el-select>
                 </el-form-item>
+                <el-form-item label="头像">
+                   <Upload :action="uploadUrl" :headers="uploadHeaders" name="inputFile"/>
+                </el-form-item>
             </el-form>
         </Dialog>
     </el-card>
@@ -79,13 +82,17 @@
 <script setup lang="ts">
     import {reactive,computed,ref, unref} from 'vue'
     import {userListApi,addUserApi} from '@/api/user'
+    import type {UserList,AddUserParams} from '@/api/model/userModel'
+    import { emailValidate,phoneValidate } from '@/utils/validate'
+    import { userStore } from '@/store/modules/user'
     import {ElMessage} from 'element-plus'
     import Dialog from '@/components/element/dialog/index.vue'
-    import type {UserList,AddUserParams} from '@/api/model/userModel'
-
+    import Upload from '@/components/element/upload/index.vue'
     type List = {
         userListTable:UserList[]
     }
+
+    const user = userStore()
     const list = reactive<List>({
         userListTable:[]
     })
@@ -100,6 +107,28 @@
     const searchValue = ref('')
     const addUserDialogVisible = ref(false)
 
+    const baseUrl = computed(()=>import.meta.env.VITE_GLOB_IMG_URL)
+    const uploadUrl = computed(()=>import.meta.env.VITE_UPLOAD_URL as string)
+    const uploadHeaders = computed(()=>{
+        return {
+            token:user.getToken
+        }
+    })
+
+    const phoneValid = (rule:any,value:string,callback:(error?:Error)=>void)=>{
+        if(phoneValidate(value)){
+            callback()
+        }else{
+            callback(new Error('请输入有效的邮箱'))
+        }
+    }
+    const emailValid = (rule:any,value:string,callback:(error?:Error)=>void)=>{
+        if(emailValidate(String(value))){
+            callback()
+        }else{
+            callback(new Error('请输入有效的邮箱'))
+        }
+    }
     const rules = {
             username:[
                 {required:true,message:'请输入账号',trigger:'blur'},
@@ -110,16 +139,14 @@
                 {min:6,message:'密码长度不少于6个字符',trigger:'blur'}
             ],
             phone:[
-                {required:true,message:'请输入账号',trigger:'blur'},
-                {min:11,message:'请输入有效的手机号',trigger:'blur'}
+                {required:true,message:'请输入手机号',trigger:'blur'},
+                {validator:phoneValid,message:'请输入有效的手机号',trigger:'blur'}
             ],
             email:[
                 {required:true,message:'请输入密码',trigger:'blur'},
-                {min:11,message:'请输入有效的邮箱',trigger:'blur'}
+                {validator:emailValid,message:'请输入有效的邮箱',trigger:'blur'}
             ]
         }
-    
-    const baseUrl = computed(()=>import.meta.env.VITE_GLOB_IMG_URL)
 
     const getUserList = (query?:string)=>{
         userListApi(query).then(res=>{

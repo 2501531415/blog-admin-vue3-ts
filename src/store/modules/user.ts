@@ -25,6 +25,9 @@ export const userStore = defineStore({
         },
         getUserInfo():UserInfo{
             return this.userInfo || JSON.parse(cache.get(USERINFO_KEY) as string)
+        },
+        getRole():number{
+            return this.role
         }
     },
     actions:{

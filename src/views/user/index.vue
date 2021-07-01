@@ -31,11 +31,11 @@
                 <template #default="scope">
                     <el-button
                     size="mini"
-                    @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                    @click="handleEdit(scope.row)">编辑</el-button>
                     <el-button
                     size="mini"
                     type="danger"
-                    @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                    @click="handleDelete(scope.row)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -50,25 +50,25 @@
                 :total="400">
             </el-pagination>
         </div>
-        <Dialog title="添加管理员" :DialogVisible="addUserDialogVisible" width="30%" top="10vh" @cancle="addUserDialogCancel" @closed="addUserDialogClosed" @sure="addUserSubmit">
-            <el-form :model="addUserForm" label-width="80px" label-position="left" :rules="rules">
+        <Dialog :title="dialogStatus?'添加用户':'修改用户'" :DialogVisible="addOrEditUserDialogVisible" width="30%" top="10vh" @cancle="addOrEditUserDialogCancel" @closed="addOrEditUserDialogClosed" @sure="addOrEditUserSubmit">
+            <el-form ref="addOrEditUserRef" :model="addOrEditUserForm" label-width="80px" label-position="left" :rules="rules">
                 <el-form-item label="用户名" prop="username">
-                    <el-input v-model="addUserForm.username"></el-input>
+                    <el-input v-model="addOrEditUserForm.username"></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password">
-                    <el-input v-model="addUserForm.password"></el-input>
+                    <el-input type="password" v-model="addOrEditUserForm.password"></el-input>
                 </el-form-item>
                 <el-form-item label="手机号" prop="phone">
-                    <el-input v-model="addUserForm.phone"></el-input>
+                    <el-input v-model="addOrEditUserForm.phone"></el-input>
                 </el-form-item>
                 <el-form-item label="邮箱" prop="email">
-                    <el-input v-model="addUserForm.email"></el-input>
+                    <el-input v-model="addOrEditUserForm.email"></el-input>
                 </el-form-item>
                 <el-form-item label="权限">
-                    <el-select v-model="addUserForm.type" placeholder="请选择管理员权限">
-                        <el-option label="超级管理员" value="0"></el-option>
-                        <el-option label="管理员" value="1"></el-option>
-                        <el-option label="游客" value="2"></el-option>
+                    <el-select v-model="addOrEditUserForm.type" placeholder="请选择管理员权限">
+                        <el-option label="超级管理员" :value="0"></el-option>
+                        <el-option label="管理员" :value="1"></el-option>
+                        <el-option label="游客" :value="2"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="头像">
@@ -81,11 +81,12 @@
 
 <script setup lang="ts">
     import {reactive,computed,ref, unref} from 'vue'
-    import {userListApi,addUserApi} from '@/api/user'
+    import {userListApi,addUserApi,deleteUserApi} from '@/api/user'
     import type {UserList,AddUserParams} from '@/api/model/userModel'
     import { emailValidate,phoneValidate } from '@/utils/validate'
     import { userStore } from '@/store/modules/user'
     import {ElMessage} from 'element-plus'
+    import {messageBox} from '@/components/element/notice/messageBox'
     import Dialog from '@/components/element/dialog/index.vue'
     import Upload from '@/components/element/upload/index.vue'
     type List = {
@@ -96,16 +97,18 @@
     const list = reactive<List>({
         userListTable:[]
     })
-    const addUserForm = reactive({
+    const addOrEditUserForm:AddUserParams = reactive({
         username:'',
         password:'',
-        type:'',
-        phone:'',
+        type:null,
+        phone:null,
         email:'',
         avatar_url:''
     })
     const searchValue = ref('')
-    const addUserDialogVisible = ref(false)
+    const userDialogStatus = ref('')
+    const addOrEditUserDialogVisible = ref(false)
+    const addOrEditUserRef:any = ref(null)
 
     const baseUrl = computed(()=>import.meta.env.VITE_GLOB_IMG_URL)
     const uploadUrl = computed(()=>import.meta.env.VITE_UPLOAD_URL as string)
@@ -114,12 +117,13 @@
             token:user.getToken
         }
     })
-
+    const dialogStatus = computed(()=>unref(userDialogStatus)=='add'?true:false)
+    // const a = computed()
     const phoneValid = (rule:any,value:string,callback:(error?:Error)=>void)=>{
         if(phoneValidate(value)){
             callback()
         }else{
-            callback(new Error('请输入有效的邮箱'))
+            callback(new Error('请输入有效的手机号'))
         }
     }
     const emailValid = (rule:any,value:string,callback:(error?:Error)=>void)=>{
@@ -168,29 +172,75 @@
     }
     //添加管理员
     const addUser = ()=>{
-        addUserDialogVisible.value = true
+        userDialogStatus.value = 'add'
+        addOrEditUserDialogVisible.value = true
     }
     //取消add user dialog
-    const addUserDialogCancel = ()=>{
-        addUserDialogVisible.value = false
+    const addOrEditUserDialogCancel = ()=>{
+        addOrEditUserDialogVisible.value = false
+        resetAddUserForm()
     }
     //add user dialog close
-    const addUserDialogClosed = ()=>{
-        addUserDialogVisible.value = false
+    const addOrEditUserDialogClosed = ()=>{
+        addOrEditUserDialogVisible.value = false
+        resetAddUserForm()
     }
-    const addUserSubmit = ()=>{
-        addUserApi(addUserForm)
+    //提交添加
+    const addOrEditUserSubmit = ()=>{
+        unref(addOrEditUserRef).validate((isValid:boolean)=>{
+            if(!isValid) return ElMessage.error('请填写必要信息')
+            if(unref(dialogStatus)){
+                addUserApi(addOrEditUserForm).then(res=>{
+                    if(res.err_code != 200) return ElMessage.error('添加失败')
+                    ElMessage.error('添加成功')
+                    addOrEditUserDialogVisible.value = false
+                    resetAddUserForm()
+                    getUserList()
+                })
+            }else{
+                //edit Api
+                console.log('edit')
+                console.log(addOrEditUserForm)
+            }   
+        })
+    }
+    //重置表单
+    const resetAddUserForm = ()=>{
+        unref(addOrEditUserRef).resetFields()
+        addOrEditUserForm.username = ''
+        addOrEditUserForm.password = ''
+        addOrEditUserForm.type = null
+        addOrEditUserForm.phone = null
+        addOrEditUserForm.email = ''
+        addOrEditUserForm.avatar_url = ''
     }
     //修改
-    const handleEdit = (index:number,scoped:UserList)=>{
-        console.log(index)
-        console.log(scoped)
+    const handleEdit = (scoped:UserList)=>{
+        userDialogStatus.value = 'emit'
+        addOrEditUserDialogVisible.value = true
+        const {username,password,type,phone, email,avatar_url} = scoped
+        addOrEditUserForm.username = username
+        addOrEditUserForm.password = password
+        addOrEditUserForm.type = type
+        addOrEditUserForm.phone = phone
+        addOrEditUserForm.email = email
+        addOrEditUserForm.avatar_url = avatar_url
+        
     }
 
     //删除
-    const handleDelete = (index:number,scoped:UserList)=>{
-        console.log(index)
-        console.log(scoped)
+    const handleDelete = (scoped:UserList)=>{
+        messageBox('此操作将永久删除该用户, 是否继续?','删除用户',{
+            type:'info',
+            confirmButtonText:'确定',
+            cancelButtonText:'取消',
+            closeOnClickModal:false
+        }).then(()=>{
+            console.log(scoped)
+            // deleteUserApi(scoped._id)
+        }).catch(action=>{
+            return;
+        })
     }
     //分页
     const handleSizeChange = ()=>{

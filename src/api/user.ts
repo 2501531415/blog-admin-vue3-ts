@@ -1,10 +1,11 @@
 import http from '@/utils/http'
-import {UserModel,AddUserParams,AddUserModel} from './model/userModel'
+import {UserModel,AddUserParams,AddUserModel,DeleteUserModel} from './model/userModel'
 
 enum User{
     LOGIN = '/login',
     LIST = '/admin',
-    ADD = '/add'
+    ADD = '/admin/add',
+    DELETE = '/admin/delete'
 }
 
 export interface UserInfo{
@@ -35,4 +36,8 @@ export function userListApi(query?:string){
 
 export function addUserApi(params:AddUserParams){
     return http.post<AddUserModel>(User.ADD,params)
+}
+
+export function deleteUserApi(id:string){
+    return http.post<DeleteUserModel>(User.DELETE,{id})
 }

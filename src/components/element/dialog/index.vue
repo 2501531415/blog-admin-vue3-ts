@@ -1,5 +1,5 @@
 <template>
-   <el-dialog :title="title" v-model="DialogVisible" :width="width" :destroy-on-close="DestroyOnClose" :center="center" :top="top" @closed="closed">
+   <el-dialog :title="title" v-model="DialogVisible" :width="width" :destroy-on-close="DestroyOnClose" :center="center" :top="top" :close-on-click-modal="CloseOnClickModal" @closed="closed">
         <slot></slot>
         <template #footer>
             <span class="dialog-footer">
@@ -38,6 +38,10 @@
         top:{
             type:String as PropType<string>,
             default:'15vh'
+        },
+        CloseOnClickModal:{
+            type:Boolean as PropType<boolean>,
+            default:false
         }
     })
 

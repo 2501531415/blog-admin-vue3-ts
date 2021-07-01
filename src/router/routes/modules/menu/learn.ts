@@ -10,17 +10,17 @@ export const learnRoute:MenuRouteRecordRaw = {
     children:[
         {
             path:'/learn/manage',
-            component:()=>import('@/views/learn/index.vue'),
+            component:()=>import('@/views/learn/manage.vue'),
             meta:{title:'笔记管理',auth:'admin'}
         },
         {
             path:'/learn/add',
-            component:()=>import('@/views/learn/index.vue'),
+            component:()=>import('@/views/learn/add.vue'),
             meta:{title:'笔记添加',auth:['admin','user']}
         },
         {
             path:'/learn/category',
-            component:()=>import('@/views/learn/index.vue'),
+            component:()=>import('@/views/learn/category.vue'),
             meta:{title:'笔记分类',auth:['admin','user']}
         }
     ]

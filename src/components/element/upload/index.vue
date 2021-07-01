@@ -12,7 +12,7 @@
         :accept="accept"
         :on-remove="handleAvatarRemove"
         :on-success="handleAvatarSuccess"
-        :before-upload="beforeAvatarUpload"
+        :before-upload="beforeUpload"
         :style="{'width':size,'height':size,'line-height':size}"
         >
         <slot></slot>
@@ -23,24 +23,8 @@
 <script setup lang="ts">
 import {defineProps,defineEmit,computed} from 'vue'
 import type {PropType} from 'vue'
+import type {HeaderType,UploadFile} from './types'
 
-type HeaderType = {
-    token:string
-}
-type UploadStatus = 'ready' | 'uploading' | 'success' | 'fail';
-type UploadFile = {
-    name: string;
-    percentage?: number;
-    status: UploadStatus;
-    size: number;
-    response?: unknown;
-    uid: number;
-    url?: string;
-    raw: ElFile;
-};
-interface ElFile extends File {
-    uid: number;
-}
 const props = defineProps({
     action:{
         type:String as PropType<string>,
@@ -87,16 +71,16 @@ const emit = defineEmit(['remove','success','beforeUpload'])
 
 const size = computed(()=>props.width + 'px')
 
-const handleAvatarRemove = ()=>{
-    
+const handleAvatarRemove = (file:UploadFile, fileList:UploadFile[])=>{
+    emit('remove',file,fileList)
 }
 
-const handleAvatarSuccess = (file:UploadFile,fileList:UploadFile[])=>{
-    console.log(file)
+const handleAvatarSuccess = (response:unknown,file:UploadFile,fileList:UploadFile[])=>{
+    emit('success',response)
 }
 
-const beforeAvatarUpload = ()=>{
-
+const beforeUpload = (file:UploadFile)=>{
+    emit('beforeUpload',file)
 }
 
 </script>

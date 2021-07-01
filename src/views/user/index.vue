@@ -15,7 +15,7 @@
         <el-table :data="list.userListTable" border empty-text="无用户内容" style="width: 100%">
             <el-table-column label="头像" width="180">
                 <template #default="scope">
-                    <img :src="baseUrl + scope.row.avatar_url" alt="">
+                    <img :src="baseUrl + scope.row.avatar_url" alt="" class="m-user-table-img">
                 </template>
             </el-table-column>
             <el-table-column label="用户名" prop="username"></el-table-column>
@@ -26,7 +26,11 @@
                     <el-tag effect="dark" :type="scope.row.type == 0?'danger':''"><span>{{scope.row.type == 0?'超级管理员':'管理员'}}</span></el-tag>
                 </template>
             </el-table-column>
-            <el-table-column label="创建时间" prop="updated_time"></el-table-column>
+            <el-table-column label="创建时间">
+                <template #default="scope">
+                    <span>{{transformUtc(scope.row.updated_time)}}</span>
+                </template>
+            </el-table-column>
             <el-table-column label="操作">
                 <template #default="scope">
                     <el-button
@@ -51,12 +55,12 @@
             </el-pagination>
         </div>
         <Dialog :title="dialogStatus?'添加用户':'修改用户'" :DialogVisible="addOrEditUserDialogVisible" width="30%" top="10vh" @cancle="addOrEditUserDialogCancel" @closed="addOrEditUserDialogClosed" @sure="addOrEditUserSubmit">
-            <el-form ref="addOrEditUserRef" :model="addOrEditUserForm" label-width="80px" label-position="left" :rules="rules">
+            <el-form ref="addOrEditUserRef" :model="addOrEditUserForm" label-width="80px" label-position="left"  :rules="rules">
                 <el-form-item label="用户名" prop="username">
                     <el-input v-model="addOrEditUserForm.username"></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password">
-                    <el-input type="password" v-model="addOrEditUserForm.password"></el-input>
+                    <el-input type="password" v-model="addOrEditUserForm.password" :show-password="true"></el-input>
                 </el-form-item>
                 <el-form-item label="手机号" prop="phone">
                     <el-input v-model="addOrEditUserForm.phone"></el-input>
@@ -64,7 +68,7 @@
                 <el-form-item label="邮箱" prop="email">
                     <el-input v-model="addOrEditUserForm.email"></el-input>
                 </el-form-item>
-                <el-form-item label="权限">
+                <el-form-item label="权限" prop="type">
                     <el-select v-model="addOrEditUserForm.type" placeholder="请选择管理员权限">
                         <el-option label="超级管理员" :value="0"></el-option>
                         <el-option label="管理员" :value="1"></el-option>
@@ -72,7 +76,11 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="头像">
-                   <Upload :action="uploadUrl" :headers="uploadHeaders" name="inputFile"/>
+                   <Upload :action="uploadUrl" :headers="uploadHeaders" name="inputFile" @success="uploadSuccess">
+                        <template v-if="addOrEditUserForm.avatar_url">
+                            <img :src="baseUrl + addOrEditUserForm.avatar_url" alt="" class="m-user-avatar">
+                        </template>
+                    </Upload>
                 </el-form-item>
             </el-form>
         </Dialog>
@@ -81,14 +89,16 @@
 
 <script setup lang="ts">
     import {reactive,computed,ref, unref} from 'vue'
-    import {userListApi,addUserApi,deleteUserApi} from '@/api/user'
+    import {userListApi,addUserApi,deleteUserApi,editUserApi} from '@/api/user'
     import type {UserList,AddUserParams} from '@/api/model/userModel'
+    import type {responseType} from '@/components/element/upload/types'
     import { emailValidate,phoneValidate } from '@/utils/validate'
     import { userStore } from '@/store/modules/user'
-    import {ElMessage} from 'element-plus'
     import {messageBox} from '@/components/element/notice/messageBox'
+    import {success,error,warning} from '@/components/element/notice/message'
     import Dialog from '@/components/element/dialog/index.vue'
     import Upload from '@/components/element/upload/index.vue'
+    import {transformUtc} from '@/lib/dayjs'
     type List = {
         userListTable:UserList[]
     }
@@ -109,6 +119,7 @@
     const userDialogStatus = ref('')
     const addOrEditUserDialogVisible = ref(false)
     const addOrEditUserRef:any = ref(null)
+    const EditId = ref('')
 
     const baseUrl = computed(()=>import.meta.env.VITE_GLOB_IMG_URL)
     const uploadUrl = computed(()=>import.meta.env.VITE_UPLOAD_URL as string)
@@ -149,7 +160,10 @@
             email:[
                 {required:true,message:'请输入密码',trigger:'blur'},
                 {validator:emailValid,message:'请输入有效的邮箱',trigger:'blur'}
-            ]
+            ],
+            type:[
+                {required:true,message:'请选择权限',trigger:'change'}
+            ],
         }
 
     const getUserList = (query?:string)=>{
@@ -162,7 +176,7 @@
     getUserList()
 
     const onSearch = ()=>{
-        if(unref(searchValue).length == 0) return ElMessage.warning('请输入搜索内容')
+        if(unref(searchValue).length == 0) return warning('请输入搜索内容')
         getUserList(unref(searchValue))
     }
     //重置
@@ -185,22 +199,33 @@
         addOrEditUserDialogVisible.value = false
         resetAddUserForm()
     }
+
+    const uploadSuccess = (res:responseType)=>{
+        console.log(res)
+        addOrEditUserForm.avatar_url = res.url
+    }
     //提交添加
     const addOrEditUserSubmit = ()=>{
         unref(addOrEditUserRef).validate((isValid:boolean)=>{
-            if(!isValid) return ElMessage.error('请填写必要信息')
+            if(!isValid) return error('请填写必要信息')
             if(unref(dialogStatus)){
                 addUserApi(addOrEditUserForm).then(res=>{
-                    if(res.err_code != 200) return ElMessage.error('添加失败')
-                    ElMessage.error('添加成功')
+                    if(res.err_code != 200) return error(res.message)
+                    success('添加成功')
                     addOrEditUserDialogVisible.value = false
                     resetAddUserForm()
                     getUserList()
                 })
             }else{
                 //edit Api
-                console.log('edit')
-                console.log(addOrEditUserForm)
+                editUserApi(unref(EditId),addOrEditUserForm).then(res=>{
+                    if(res.err_code != 200) return error(res.message)
+                    success('修改成功')
+                    addOrEditUserDialogVisible.value = false
+                    resetAddUserForm()
+                    getUserList()
+                })
+                
             }   
         })
     }
@@ -217,6 +242,7 @@
     //修改
     const handleEdit = (scoped:UserList)=>{
         userDialogStatus.value = 'emit'
+        EditId.value = scoped._id
         addOrEditUserDialogVisible.value = true
         const {username,password,type,phone, email,avatar_url} = scoped
         addOrEditUserForm.username = username
@@ -231,13 +257,17 @@
     //删除
     const handleDelete = (scoped:UserList)=>{
         messageBox('此操作将永久删除该用户, 是否继续?','删除用户',{
-            type:'info',
+            type:'warning',
             confirmButtonText:'确定',
             cancelButtonText:'取消',
             closeOnClickModal:false
         }).then(()=>{
-            console.log(scoped)
-            // deleteUserApi(scoped._id)
+            deleteUserApi(scoped._id).then(res=>{
+                if(res.err_code != 200) return error(res.message)
+                list.userListTable = list.userListTable.filter(item=>item._id !=scoped._id)
+                success('删除成功!')
+            })
+           
         }).catch(action=>{
             return;
         })
@@ -258,7 +288,7 @@
         &-search{
             margin-bottom: 10px;
         }
-        img{
+        &-table-img{
             width: 69px;
             height: 69px;
         }
@@ -266,6 +296,10 @@
             margin-top:10px;
             display: flex;
             justify-content: flex-end;
+        }
+        &-avatar{
+            width: 100%;
+            height:100%;
         }
     }
 </style>

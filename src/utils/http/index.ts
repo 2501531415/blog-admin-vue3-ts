@@ -55,6 +55,24 @@ class Http{
             })
         })
     }
+    put<T>(url:string,data?:any,config?:AxiosRequestConfig):Promise<T>{
+        return new Promise((resolve,reject)=>{
+            this.instance.put<T>(url,data,config).then(res=>{
+                resolve(res.data)
+            }).catch(err=>{
+                reject(err)
+            })
+        })
+    }
+    delete<T>(url:string,config?:AxiosRequestConfig):Promise<T>{
+        return new Promise((resolve,reject)=>{
+            this.instance.delete<T>(url,config).then(res=>{
+                resolve(res.data)
+            }).catch(err=>{
+                reject(err)
+            })
+        })
+    }
 }
 
 export default new Http()

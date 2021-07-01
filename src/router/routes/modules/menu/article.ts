@@ -10,12 +10,12 @@ export const articleRoute:MenuRouteRecordRaw = {
     children:[
         {
             path:'/article/manage',
-            component:()=>import('@views/learn/manage.vue'),
+            component:()=>import('@/views/learn/manage.vue'),
             meta:{title:'文章整理',auth:'admin'}
         },
         {
             path:'/article/add',
-            component:()=>import('@views/learn/manage.vue'),
+            component:()=>import('@/views/learn/manage.vue'),
             meta:{title:'文章添加',auth:['admin','user']}
         }
     ]

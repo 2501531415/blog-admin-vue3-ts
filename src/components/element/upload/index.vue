@@ -15,15 +15,18 @@
         :before-upload="beforeUpload"
         :style="{'width':size,'height':size,'line-height':size}"
         >
-        <slot></slot>
-        <i  class="el-icon-plus avatar-uploader-icon"></i>
+        <slot>
+            <i  class="el-icon-plus avatar-uploader-icon"></i>
+        </slot>
     </el-upload>
 </template>
 
 <script setup lang="ts">
 import {defineProps,defineEmit,computed} from 'vue'
 import type {PropType} from 'vue'
-import type {HeaderType,UploadFile} from './types'
+import type {HeaderType,UploadFile,responseType} from './types'
+
+
 
 const props = defineProps({
     action:{
@@ -67,20 +70,28 @@ const props = defineProps({
     
 }) 
 
-const emit = defineEmit(['remove','success','beforeUpload'])
+const emit = defineEmit({'success':(res:responseType)=>{
+    if(res){
+        return true
+    }else{
+        return false
+    }
+}})
+
+// const successEmit = defineEmit()
 
 const size = computed(()=>props.width + 'px')
 
 const handleAvatarRemove = (file:UploadFile, fileList:UploadFile[])=>{
-    emit('remove',file,fileList)
+    // emit('remove',file,fileList)
 }
 
-const handleAvatarSuccess = (response:unknown,file:UploadFile,fileList:UploadFile[])=>{
+const handleAvatarSuccess = (response:responseType,file:UploadFile,fileList:UploadFile[])=>{
     emit('success',response)
 }
 
 const beforeUpload = (file:UploadFile)=>{
-    emit('beforeUpload',file)
+    // emit('beforeUpload',file)
 }
 
 </script>

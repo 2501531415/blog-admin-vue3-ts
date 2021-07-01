@@ -17,3 +17,9 @@ export type UploadFile = {
     url?: string;
     raw: ElFile;
 };
+
+export type responseType = {
+    status:number,
+    url:string,
+    message:string
+}

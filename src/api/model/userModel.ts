@@ -10,6 +10,11 @@ export interface AddUserModel extends publicModel{
 export interface DeleteUserModel extends publicModel{
 
 }
+
+export interface EditUserModel extends publicModel{
+
+}
+
 export interface UserList{
     avatar_url: string,
     created_time: string,

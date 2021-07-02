@@ -1,6 +1,5 @@
 import http from '@/utils/http'
-import {UserModel,AddUserParams,AddUserModel,DeleteUserModel} from './model/userModel'
-import { publicModel } from './model'
+import {UserModel,AddUserParams,AddUserModel,DeleteUserModel,EditUserModel} from './model/userModel'
 
 enum User{
     LOGIN = '/login',
@@ -45,5 +44,5 @@ export function deleteUserApi(id:string){
 }
 
 export function editUserApi(id:string,params:AddUserParams){
-    return http.put<publicModel>(`${User.EDIT}/${id}`,params)
+    return http.put<EditUserModel>(`${User.EDIT}/${id}`,params)
 }

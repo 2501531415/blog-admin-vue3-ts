@@ -36,7 +36,8 @@ export default ({command,mode}:ConfigEnv):UserConfig=>{
     resolve:{
       alias:[
         {find:'@',replacement:resolve(__dirname,'src')}
-      ]
+      ],
+      // extensions:['.vue','.tsx','.ts','js']
     }
   }
 }

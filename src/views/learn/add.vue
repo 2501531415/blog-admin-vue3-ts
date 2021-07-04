@@ -27,7 +27,7 @@
         <el-row type="flex" align="center" class="m-learn-add-margin">
             <el-col :xs="10" :sm="10" :md="6" :lg="5">
                 <el-tag type="warning" effect="dark" class="m-learn-add-tag">类型</el-tag>
-                <Select :option="['555','8888']" :selectValue="addForm.type" @change="selectChange" size="small"></Select>
+                <Select :option="typeList" :selectValue="addForm.type" @change="selectChange" size="small"></Select>
             </el-col>
             <el-col :span="14">
                 <el-tag type="warning"  effect="dark">标签</el-tag>
@@ -41,7 +41,7 @@
 <script setup lang="ts">
 
     import {ref,reactive,computed} from 'vue'
-    import {addLearnApi} from '@/api/learn'
+    import {addLearnApi,getLearnCategoryApi} from '@/api/learn'
     import {baseUrl,uploadUrl,uploadHeaders} from '@/hooks/useUpload'
     import type {responseType} from '@/components/element/upload/types'
     import {success,error,warning} from '@/components/element/notice/message'
@@ -70,6 +70,15 @@
         fileList:[]
     })
 
+    const typeList = ref([''])
+    const getLearnCategory = ()=>{
+        getLearnCategoryApi().then(res=>{
+            typeList.value = res.data.map(item=>{
+                return item.type
+            })
+        })
+    }
+    getLearnCategory()
     //keywrod
     // const keyWord = computed(()=>addForm.keyWord.split(','))
 

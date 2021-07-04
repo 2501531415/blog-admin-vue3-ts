@@ -4,7 +4,7 @@ export interface LearnCategoryParams{
     imgUrl:string,
     name: string,
     type: string,
-    _id?: string
+    _id: string
 }
 
 export interface LearnCategoryModel extends publicModel{

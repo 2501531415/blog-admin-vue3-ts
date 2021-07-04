@@ -2,7 +2,7 @@
     <drop-down :DropDownItem="state.dropItem" @menuClick="menuClick">
         <template #title>
            <div class="m-login-info">
-                <img :src="'http://blog.wmyy.fun/'+avatar" alt="">
+                <img :src="baseUrl+avatar" alt="">
                 <span>
                     {{username}}<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
@@ -28,6 +28,7 @@
 
     const avatar = computed(()=>user.getUserInfo?.avatar)
     const username = computed(()=>user.getUserInfo?.username)
+    const baseUrl = computed(()=>import.meta.env.VITE_GLOB_IMG_URL)
 
     const menuClick = (command:string)=>{
         switch(command){

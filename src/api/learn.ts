@@ -9,7 +9,7 @@ export function getLearnCategoryApi(){
 }
 
 
-export function addLearnCategoryApi(params:LearnCategoryParams){
+export function addLearnCategoryApi(params:Omit<LearnCategoryParams,'_id'>){
     return http.post<EditLearnCategoryModel>(LearnCategory.ADD,params)
 }
 

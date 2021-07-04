@@ -5,7 +5,7 @@
         </slot>
         <template #dropdown>
             <el-dropdown-menu>
-                <el-dropdown-item :command="item.command" :icon="item.icon" v-for="item in DropDownItem" :key="item">{{item.name}}</el-dropdown-item>
+                <el-dropdown-item :command="item.command" :icon="item.icon" v-for="(item,index) in DropDownItem" :key="index">{{item.name}}</el-dropdown-item>
             </el-dropdown-menu>
         </template>
     </el-dropdown>

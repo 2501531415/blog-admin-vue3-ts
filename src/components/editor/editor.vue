@@ -1,15 +1,37 @@
 <template>
-    <div id="editor"></div>
+    <div id="editor" :style="{'height':height+'px'}"></div>
 </template>
 
 
 <script setup lang="ts">
-    import {ref, onMounted } from 'vue'
+    import {ref, onMounted,defineProps,defineEmit,watch } from 'vue'
+    import type {PropType} from 'vue'
     import editor from '@toast-ui/editor'
     import type {Editor,EditorCore,EditorOptions} from '@toast-ui/editor'
+    import { defineOptions } from './defineOptions'
     import '@toast-ui/editor/dist/toastui-editor.css'
     import '@toast-ui/editor/dist/theme/toastui-editor-dark.css'
     
+    const props = defineProps({
+        options:{
+            type:Object as PropType<Omit<EditorOptions,'el'|'height'>>
+        },
+        modelValue:{
+            type:String as PropType<string>,
+            default:''
+        },
+        height:{
+            type:String as PropType<string>,
+            default:'300'
+        }
+    })
+
+    const emit = defineEmit({'update:modelValue':(value:string)=>{
+        if(value){
+            return true
+        }
+    }})
+
     const editorInstance = ref<Editor>()
 
     const initEditor = (options:EditorOptions):void=>{
@@ -19,15 +41,25 @@
     }
 
     onMounted(()=>{
-        initEditor({
-            el:document.getElementById('editor') as HTMLElement,
-            initialValue:'this is my blog',
-            initialEditType:'markdown',
-        })
+        const propsOptions = {el:document.getElementById('editor') as HTMLElement,height:props.height}
+        const options = Object.assign(propsOptions,defineOptions,props.options)
+        console.log(options)
+        options.initialValue = props.modelValue
+        initEditor(options)
+        editorInstance.value!.addHook('change',()=>{
+            emit('update:modelValue',getValue())
+    })
     })
 
     const getValue = ()=>{
         return editorInstance.value!.getMarkdown()
     }
+
+    // watch(()=>props.modelValue,(newValue)=>{
+    //     console.log(newValue)
+    //     if(!(newValue == getValue())){
+    //         editorInstance.value!.setMarkdown(newValue,false)
+    //     }
+    // })
 
 </script>

@@ -1,12 +1,12 @@
 <template>
-    <el-tag
-    :key="tag"
-    v-for="tag in Tags"
-    closable
-    :disable-transitions="false"
-    @close="handleClose(tag)">
-    {{tag}}
-  </el-tag>
+    <template :key="tag" v-for="tag in Tags">
+      <el-tag
+      closable
+      :disable-transitions="false"
+      @close="handleClose(tag)" v-if="tag.length > 0">
+      {{tag}}
+    </el-tag>
+    </template>
   <el-input
     class="input-new-tag"
     v-if="inputVisible"
@@ -80,5 +80,7 @@
     padding-top: 0;
     padding-bottom: 0
 }
-
+.el-tag+.el-tag{
+  margin-left: 10px;
+}
 </style>

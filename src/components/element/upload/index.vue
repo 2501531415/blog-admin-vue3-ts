@@ -1,6 +1,6 @@
 <template>
      <el-upload
-        class="avatar-uploader"
+        :class="[{'uploader-border':border},'avatar-uploader']"
         :action="action"
         :show-file-list="ShowFileList"
         :auto-upload="AutoUpload"
@@ -14,6 +14,7 @@
         :on-success="handleAvatarSuccess"
         :before-upload="beforeUpload"
         :style="{'width':size,'height':size,'line-height':size}"
+        :file-list="fileList"
         >
         <slot>
             <i  class="el-icon-plus avatar-uploader-icon"></i>
@@ -66,6 +67,14 @@ const props = defineProps({
     width:{
         type:String || Number as PropType<string | number>,
         default:'100'
+    },
+    border:{
+        type:Boolean as PropType<boolean>,
+        default:true   
+    },
+    fileList:{
+        type:Array,
+        default:[]
     }
     
 }) 
@@ -98,9 +107,12 @@ const beforeUpload = (file:UploadFile)=>{
 
 <style lang="less">
 .avatar-uploader{
-    font-size: 28px;
+    // font-size: 28px;
     color: #8c939d;
     text-align: center;
+}
+
+.uploader-border{
     border: 1px dashed #eee;
 }
 </style>

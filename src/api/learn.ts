@@ -1,7 +1,9 @@
 import http from '@/utils/http'
-import {LearnCategoryModel,LearnCategoryParams,DeleteLearnCategoryModel,EditLearnCategoryModel} from './model/learnModel'
+import {LearnCategoryModel,LearnCategoryParams,DeleteLearnCategoryModel,EditLearnCategoryModel,LearnParams} from './model/learnModel'
 
 enum LearnCategory{CATEGORY='/learn/nav',ADD='learn/nav',DELETE='/learn/nav'}
+
+enum Learn{ADD='/learn/add'}
 
 
 export function getLearnCategoryApi(){
@@ -15,4 +17,8 @@ export function addLearnCategoryApi(params:Omit<LearnCategoryParams,'_id'>){
 
 export function deleteLearnCategoryApi(id:string){
     return http.delete<DeleteLearnCategoryModel>(`${LearnCategory.DELETE}/${id}`)
+}
+
+export function addLearnApi(params:LearnParams){
+    return http.post<any>(Learn.ADD,params)
 }

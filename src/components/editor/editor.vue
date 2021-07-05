@@ -1,5 +1,5 @@
 <template>
-    <div id="editor" :style="{'height':height}"></div>
+    <div id="editor"></div>
 </template>
 
 
@@ -14,7 +14,7 @@
     
     const props = defineProps({
         options:{
-            type:Object as PropType<Omit<EditorOptions,'el'|'height'>>
+            type:Object as PropType<Omit<EditorOptions,'el'>>
         },
         modelValue:{
             type:String as PropType<string>,

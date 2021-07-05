@@ -1,10 +1,10 @@
 <template>
-    <div id="editor" :style="{'height':height+'px'}"></div>
+    <div id="editor" :style="{'height':height}"></div>
 </template>
 
 
 <script setup lang="ts">
-    import {ref, onMounted,defineProps,defineEmit,watch } from 'vue'
+    import {ref, onMounted,defineProps,defineEmit,computed } from 'vue'
     import type {PropType} from 'vue'
     import editor from '@toast-ui/editor'
     import type {Editor,EditorCore,EditorOptions} from '@toast-ui/editor'
@@ -21,8 +21,8 @@
             default:''
         },
         height:{
-            type:String as PropType<string>,
-            default:'300'
+            type:String,
+            default:'300px'
         }
     })
 

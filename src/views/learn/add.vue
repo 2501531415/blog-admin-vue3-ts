@@ -34,7 +34,7 @@
                 <Tag :Tags="addForm.keyWord" @close="tagClose" @add="tagAdd"/>
             </el-col>
         </el-row>
-        <Editor v-model="addForm.content" height="600"/>
+        <Editor v-model="addForm.content" :height="editorHeight"/>
     </div>
 </template>
 
@@ -49,7 +49,7 @@
     import Upload from '@/components/element/upload/index.vue'
     import Select from '@/components/element/select/index.vue'
     import Tag from '@/components/element/tag/index.vue'
-    
+
     type fileListType = {
         name:string,
         url:string
@@ -60,17 +60,16 @@
         desc:'',
         type:'',
         keyWord:[''],
-        number:'',
         author:'',
-        img_url:'',
-        // 0发布 1草稿箱
-        status:0,
+        img_url:''
     })
     const upload:Record<string,fileListType[]> = reactive({
         fileList:[]
     })
 
     const typeList = ref([''])
+
+    const editorHeight = computed(()=>'calc(100% - 145px)')
     const getLearnCategory = ()=>{
         getLearnCategoryApi().then(res=>{
             typeList.value = res.data.map(item=>{
@@ -102,32 +101,37 @@
     
     //草稿箱
     const addToDraft = ()=>{
-       
+        const {title,content} = addForm
+        if(title && content){
+            addLearnApi(getSubmitData(1)).then(res=>{
+                console.log(res)
+            })
+        }else{
+            error('请输入标题以及内容')
+        }
     }
     
     //立即提交
     const submit = ()=>{
-        const data = {
-        title:addForm.title,
-        content:addForm.content,
-        desc:addForm.desc,
-        type:addForm.type,
-        keyWord:addForm.keyWord.filter(item=>item.length > 0).join(','),
-        number:addForm.content.length,
-        author:addForm.author,
-        img_url:addForm.img_url,
-        // 0发布 1草稿箱
-        status:0,
+        const {title,content,desc,type,keyWord,author} = addForm
+        if(title && content && desc && type && keyWord.length>1 && author){
+            addLearnApi(getSubmitData(0)).then(res=>{
+                console.log(res)
+            })
+        }else{
+            error('请输入必填内容')
+        }
     }
-    console.log(data)
-        addLearnApi(data).then(res=>{
-            console.log(res)
-        })
+    const getSubmitData = (status:number)=>{
+        const {title,content,desc,type,keyWord,author,img_url} = addForm
+        const submitData = {title,content,desc,type,keyWord:keyWord.filter(item=>item.length > 0).join(','),number:content.length,author,img_url,status}
+        return submitData
     }
 </script>
 
 <style lang="less" scoped>
 .m-learn-add{
+    height:100%;
     &-submit{
         display: flex;
         align-items: center;

@@ -10,7 +10,9 @@
             <el-main>
                 <router-view></router-view>
             </el-main>
-            <el-footer>footer</el-footer>
+            <el-footer>
+                <Footer/>
+            </el-footer>
         </el-container>
     </el-container>
 </template>
@@ -20,6 +22,7 @@
     import {settingStore} from '@/store/modules/setting'
     import Asdie from './aside/index.vue'
     import MHeader from './header/index.vue'
+    import Footer from './footer/index.vue'
     const setting = settingStore()
 
     //菜单是否折叠

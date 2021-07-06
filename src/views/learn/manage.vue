@@ -73,6 +73,7 @@
 
 <script setup lang="ts">
     import {ref,reactive,computed,unref} from 'vue'
+    import {useRouter} from 'vue-router'
     import {getLearnListApi,deleteLearnApi} from '@/api/learn'
     import type {LearnParams} from '@/api/model/learnModel'
     import {transformUtc} from '@/lib/dayjs'
@@ -81,6 +82,7 @@
     type LearnType = {
         learnList:LearnParams[]
     }
+    const router = useRouter()
     const learn:LearnType = reactive({
         learnList:[]
     })
@@ -120,7 +122,7 @@
     }
 
     const handleEdit = (scope:Required<LearnParams>)=>{
-
+        router.push(`/learn/manage/${scope._id}`)
     }
     const handleDelete = (scope:Required<LearnParams>)=>{
         messageBox('此操作将永久删除该笔记, 是否继续?','删除笔记',{

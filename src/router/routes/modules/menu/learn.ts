@@ -14,8 +14,13 @@ export const learnRoute:MenuRouteRecordRaw = {
             meta:{title:'笔记管理',auth:'admin'}
         },
         {
+            path:'/learn/manage/:id',
+            component:()=>import('@/views/learn/learnForm.vue'),
+            meta:{title:'笔记修改',auth:'admin',isHide:true}
+        },
+        {
             path:'/learn/add',
-            component:()=>import('@/views/learn/add.vue'),
+            component:()=>import('@/views/learn/learnForm.vue'),
             meta:{title:'笔记添加',auth:['admin','user']}
         },
         {

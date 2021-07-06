@@ -41,8 +41,13 @@ export interface LearnParams{
 	create_time?:string, 
 	// 最后修改日期
 	update_time?:string,
-    _id?:string 
+    _id?:string,
+    id?:string, 
 }
 export interface LearnModel extends publicModel{
     data:LearnParams[]
+}
+
+export interface LearnDetailModel extends publicModel{
+    detail:Required<LearnParams>
 }

@@ -1,9 +1,9 @@
 import http from '@/utils/http'
-import {LearnCategoryModel,LearnCategoryParams,DeleteLearnCategoryModel,EditLearnCategoryModel,LearnParams,LearnModel} from './model/learnModel'
+import {LearnCategoryModel,LearnCategoryParams,DeleteLearnCategoryModel,EditLearnCategoryModel,LearnParams,LearnModel,LearnDetailModel} from './model/learnModel'
 
 enum LearnCategory{CATEGORY='/learn/nav',ADD='learn/nav',DELETE='/learn/nav'}
 
-enum Learn{List='/learn',ADD='/learn/add'}
+enum Learn{LIST='/learn',ADD='/learn/add',DETAIL='/learn/detail'}
 
 
 export function getLearnCategoryApi(){
@@ -24,10 +24,13 @@ export function addLearnApi(params:LearnParams){
 }
 
 export function getLearnListApi(query?:string){
-    return http.post<LearnModel>(Learn.List,{query})
+    return http.post<LearnModel>(Learn.LIST,{query})
 }
 
 export function deleteLearnApi(id:string){
-    return http.delete<any>(`${Learn.List}/${id}`)
+    return http.delete<any>(`${Learn.LIST}/${id}`)
 }
 
+export function getLearnDetailApi(id:string){
+    return http.get<LearnDetailModel>(`${Learn.DETAIL}/${id}`)
+}

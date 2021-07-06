@@ -37,18 +37,20 @@
     const initEditor = (options:EditorOptions):void=>{
         editorInstance.value = new editor({
         ...options
-    })
+        })
+        editorInstance.value!.addHook('change',()=>{
+                emit('update:modelValue',getValue())
+        })
     }
 
     onMounted(()=>{
         const propsOptions = {el:document.getElementById('editor') as HTMLElement,height:props.height}
         const options = Object.assign(propsOptions,defineOptions,props.options)
         console.log(options)
-        options.initialValue = props.modelValue
+        if(props.modelValue){
+            options.initialValue = props.modelValue
+        }
         initEditor(options)
-        editorInstance.value!.addHook('change',()=>{
-            emit('update:modelValue',getValue())
-    })
     })
 
     const getValue = ()=>{

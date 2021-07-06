@@ -1,10 +1,11 @@
 <template>
+    <!-- <el-button @click="resetEditor">dd</el-button> -->
     <div id="editor"></div>
 </template>
 
 
 <script setup lang="ts">
-    import {ref, onMounted,defineProps,defineEmit,computed } from 'vue'
+    import {ref, onMounted,defineProps,defineEmit,computed,useContext } from 'vue'
     import type {PropType} from 'vue'
     import editor from '@toast-ui/editor'
     import type {Editor,EditorCore,EditorOptions} from '@toast-ui/editor'
@@ -12,6 +13,7 @@
     import '@toast-ui/editor/dist/toastui-editor.css'
     import '@toast-ui/editor/dist/theme/toastui-editor-dark.css'
     
+    const context = useContext()
     const props = defineProps({
         options:{
             type:Object as PropType<Omit<EditorOptions,'el'>>
@@ -57,11 +59,18 @@
         return editorInstance.value!.getMarkdown()
     }
 
+    const resetEditor = ()=>{
+        editorInstance.value!.reset()
+    }
+
     // watch(()=>props.modelValue,(newValue)=>{
     //     console.log(newValue)
     //     if(!(newValue == getValue())){
     //         editorInstance.value!.setMarkdown(newValue,false)
     //     }
     // })
+    context.expose({
+        resetEditor
+    })
 
 </script>

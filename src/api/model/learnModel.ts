@@ -11,11 +11,14 @@ export interface LearnCategoryModel extends publicModel{
     data:LearnCategoryParams[]
 }
 
-export interface DeleteLearnCategoryModel extends publicModel{
+// export interface DeleteLearnCategoryModel extends publicModel{
 
-}
+// }
 
-export interface EditLearnCategoryModel extends publicModel{
+// export interface EditLearnCategoryModel extends publicModel{
+
+// }
+export interface LearnPublicModel extends publicModel{
 
 }
 

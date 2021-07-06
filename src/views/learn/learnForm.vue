@@ -35,13 +35,13 @@
                 <Tag :Tags="addForm.keyWord" @close="tagClose" @add="tagAdd"/>
             </el-col>
         </el-row>
-        <Editor v-model="addForm.content" :height="editorHeight" v-if="!isEdit || addForm.content"/>
+        <Editor v-model="addForm.content" ref="editorRef" :height="editorHeight" v-if="!isEdit || addForm.content"/>
     </div>
 </template>
 
 <script setup lang="ts">
 
-    import {ref,reactive,computed} from 'vue'
+    import {ref,reactive,computed,onMounted, unref} from 'vue'
     import {useRoute,useRouter,onBeforeRouteUpdate} from 'vue-router'
     import {addLearnApi,getLearnCategoryApi,getLearnDetailApi} from '@/api/learn'
     import type {LearnParams} from '@/api/model/learnModel'
@@ -73,6 +73,7 @@
     })
 
     const typeList = ref([''])
+    const editorRef:any = ref(null)
 
     const editorHeight = computed(()=>'calc(100% - 145px)')
     const isEdit = computed(()=>route.params.id?true:false)
@@ -128,7 +129,12 @@
         const {title,content} = addForm
         if(title && content){
             addLearnApi(getSubmitData(1)).then(res=>{
-                console.log(res)
+                if(res.err_code !=200) return error('加入草稿箱失败！')
+                success('已成功加入草稿箱！')
+                resetFormData()
+                if(isEdit.value){
+                    backToManage()
+                }
             })
         }else{
             error('请输入标题以及内容')
@@ -138,9 +144,15 @@
     //立即提交
     const submit = ()=>{
         const {title,content,desc,type,keyWord,author} = addForm
+        console.log(addForm)
         if(title && content && desc && type && keyWord.length>1 && author){
             addLearnApi(getSubmitData(0)).then(res=>{
-                console.log(res)
+                if(res.err_code !=200) return error('提交失败！')
+                success('提交成功！')
+                resetFormData()
+                if(isEdit.value){
+                    backToManage()
+                }
             })
         }else{
             error('请输入必填内容')
@@ -159,7 +171,21 @@
         }
         return submitData
     }
-
+    
+    const resetFormData = ()=>{
+        addForm.title = ''
+        addForm.content = ''
+        addForm.desc = ''
+        addForm.type = ''
+        addForm.keyWord = ['']
+        addForm.author = ''
+        addForm.img_url = ''
+        upload.fileList = []
+        // unref(editorRef).resetEditor()
+    }
+    onMounted(()=>{
+        console.log(editorRef.value)
+    })
     onBeforeRouteUpdate((to)=>{
         //console.log(to)
     })

@@ -1,5 +1,4 @@
 <template>
-    <!-- <el-button @click="resetEditor">dd</el-button> -->
     <div id="editor"></div>
 </template>
 
@@ -33,8 +32,8 @@
             return true
         }
     }})
-
-    const editorInstance = ref<Editor>()
+    // type Nullable<T> = T | null
+    const editorInstance = ref<Nullable<Editor>>(null)
 
     const initEditor = (options:EditorOptions):void=>{
         editorInstance.value = new editor({

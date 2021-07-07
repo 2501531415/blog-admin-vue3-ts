@@ -1,4 +1,4 @@
-import { publicModel } from "./index";
+import { publicModel,Mete } from "./index";
 
 export interface LearnCategoryParams{
     imgUrl:string,
@@ -22,12 +22,6 @@ export interface LearnPublicModel extends publicModel{
 
 }
 
-interface LearnMete{
-    views:number
-	likes: number
-	comments: number
-}
-
 export interface LearnParams{
     title:string,
     desc?:string,
@@ -39,7 +33,7 @@ export interface LearnParams{
     img_url?:string
     // 0发布 1草稿箱
     status:number,
-    meta?: LearnMete,
+    meta?: Mete,
 	// 创建日期
 	create_time?:string, 
 	// 最后修改日期

@@ -48,7 +48,7 @@
     import {baseUrl,uploadUrl,uploadHeaders} from '@/hooks/useUpload'
     import type {responseType} from '@/components/element/upload/types'
     import {success,error,warning} from '@/components/element/notice/message'
-    import Editor from '@/components/editor/editor.vue'
+    import Editor from '@/components/markdown/index.vue'
     import Upload from '@/components/element/upload/index.vue'
     import Select from '@/components/element/select/index.vue'
     import Tag from '@/components/element/tag/index.vue'
@@ -165,10 +165,14 @@
     }
     const getSubmitData = (status:number)=>{
         const {title,content,desc,type,keyWord,author,img_url} = addForm
-        let submitData:LearnParams = {title,content,desc,type,keyWord:keyWord.filter(item=>item.length > 0).join(','),number:content.length,author,img_url,status}
+        let submitData:LearnParams = {title,content,desc,type,keyWord:keyWord.filter(item=>item.length > 0).join(','),number:content.length,author,status}
+        if(img_url.length>0){
+            submitData.img_url = img_url
+        }
         if(isEdit.value){
             submitData.id = route.params.id as string
         }
+        
         return submitData
     }
     
@@ -181,7 +185,6 @@
         addForm.author = ''
         addForm.img_url = ''
         upload.fileList = []
-        // unref(editorRef).resetEditor()
     }
     onMounted(()=>{
         console.log(editorRef.value)

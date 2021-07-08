@@ -1,20 +1,20 @@
 <template>
-    <el-card class="m-learn">
-        <div class="m-learn-show">
-            <div class="m-learn-show-item">
+    <el-card class="m-article">
+        <div class="m-article-show">
+            <div class="m-article-show-item">
                 <span>全部笔记：</span>
                 <span>{{show.all}}</span>
             </div>
-            <div class="m-learn-show-item">
+            <div class="m-article-show-item">
                 <span>已发布：</span>
                 <span>{{show.post}}</span>
             </div>
-            <div class="m-learn-show-item">
+            <div class="m-article-show-item">
                 <span>草稿箱：</span>
                 <span>{{show.draft}}</span>
             </div>
         </div>
-        <div class="m-learn-search">
+        <div class="m-article-search">
             <el-row :gutter="20">
                 <el-col :xs="12" :sm="12" :md="8" :lg="8">
                     <el-input  prefix-icon="el-icon-search" v-model="searchValue" placeholder="请输入搜索内容"></el-input>
@@ -57,10 +57,10 @@
                     <el-button
                     size="mini"
                     @click="handleEdit(scope.row)">编辑</el-button>
-                    <!-- <el-button
+                    <el-button
                     size="mini"
                     type="info"
-                    @click="handleWatch(scope.row)">预览</el-button> -->
+                    @click="handleWatch(scope.row)">预览</el-button>
                     <el-button
                     size="mini"
                     type="danger"
@@ -68,9 +68,12 @@
                 </template>
             </el-table-column>
         </el-table>
-        <!-- <Dialog :DialogVisible="previewDialogVisiable">
-            <Editor :options="previewEditorOptions"/>
+        <!-- <Dialog :DialogVisible="previewDialogVisiable" :fullscreen="true" @cancle="previewDialogClose" @closed="previewDialogClose" @submit="previewDialogClose">
+            <div v-html="previewText" v-highlight></div>
         </Dialog> -->
+        <Drawer :title="previewTitle" :drawer-visiable="previewDrawerVisiable" @close="drawerClosed">
+            <div v-html="previewText" class="m-article-preview"></div>
+        </Drawer>
     </el-card>
 </template>
 
@@ -82,7 +85,8 @@
     import {transformUtc} from '@/lib/dayjs'
     import {success,error,warning} from '@/components/element/notice/message'
     import {messageBox} from '@/components/element/notice/messageBox'
-    // import Dialog from '@/components/element/dialog/index.vue'
+    import Drawer from '@/components/element/drawer/index.vue'
+    import marked from 'marked'
     // import Editor from '@/components/editor/editor.vue'
 
     type ArticleType = {
@@ -98,11 +102,10 @@
         draft:0,
         flag:true
     })
-    const previewEditorOptions = reactive({
-        initialValue:''
-    })
+    const previewText = ref('')
     const searchValue = ref('')
-    const previewDialogVisiable = ref(false)
+    const previewTitle = ref('')
+    const previewDrawerVisiable = ref(false)
     const baseUrl = computed(()=>import.meta.env.VITE_GLOB_IMG_URL)
 
     const getArticleList = (query?:string)=>{
@@ -135,8 +138,13 @@
     }
 
     const handleWatch = (scope:Required<ArticleParams>)=>{
-        previewEditorOptions.initialValue = scope.content
-        previewDialogVisiable.value = true
+        previewText.value = marked(scope.content)
+        previewTitle.value = scope.title
+        previewDrawerVisiable.value = true
+    }
+    //preview dialog cancle
+    const drawerClosed = ()=>{
+        previewDrawerVisiable.value = false
     }
 
     const handleDelete = (scope:Required<ArticleParams>)=>{
@@ -162,7 +170,7 @@
 </script>
 
 <style lang="less">
-.m-learn{
+.m-article{
     &-show{
         display: flex;
         justify-items: center;
@@ -178,6 +186,9 @@
     }
     &-search{
         margin:10px 0px;
+    }
+    &-preview{
+        padding:0px 10px;
     }
 }
 .m-learen-table-img{

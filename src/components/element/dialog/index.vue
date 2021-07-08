@@ -1,5 +1,5 @@
 <template>
-   <el-dialog :title="title" v-model="DialogVisible" :width="width" :destroy-on-close="DestroyOnClose" :center="center" :top="top" :close-on-click-modal="CloseOnClickModal" @closed="closed">
+   <el-dialog :title="title" v-model="DialogVisible" :width="width" :fullscreen="fullscreen" :destroy-on-close="DestroyOnClose" :center="center" :top="top" :close-on-click-modal="CloseOnClickModal" @closed="closed">
         <slot></slot>
         <template #footer>
             <span class="dialog-footer">
@@ -40,6 +40,11 @@
             default:'15vh'
         },
         CloseOnClickModal:{
+            type:Boolean as PropType<boolean>,
+            default:false
+        },
+        //是否全屏
+        fullscreen:{
             type:Boolean as PropType<boolean>,
             default:false
         }

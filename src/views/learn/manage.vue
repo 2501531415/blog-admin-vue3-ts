@@ -61,10 +61,10 @@
                     <el-button
                     size="mini"
                     @click="handleEdit(scope.row)">编辑</el-button>
-                    <!-- <el-button
+                    <el-button
                     size="mini"
                     type="info"
-                    @click="handleWatch(scope.row)">预览</el-button> -->
+                    @click="handleWatch(scope.row)">预览</el-button>
                     <el-button
                     size="mini"
                     type="danger"
@@ -72,9 +72,9 @@
                 </template>
             </el-table-column>
         </el-table>
-        <!-- <Dialog :DialogVisible="previewDialogVisiable">
-            <Editor :options="previewEditorOptions"/>
-        </Dialog> -->
+        <Drawer :title="drawerTitle" :drawer-visiable="previewDrawerVisiable" @close="drawerClosed" :DestroyOnClose="true">
+            <div v-html="previewText" class="m-learn-preview"></div>
+        </Drawer>
     </el-card>
 </template>
 
@@ -86,8 +86,8 @@
     import {transformUtc} from '@/lib/dayjs'
     import {success,error,warning} from '@/components/element/notice/message'
     import {messageBox} from '@/components/element/notice/messageBox'
-    // import Dialog from '@/components/element/dialog/index.vue'
-    // import Editor from '@/components/editor/editor.vue'
+    import Drawer from '@/components/element/drawer/index.vue'
+    import marked from 'marked'
 
     type LearnType = {
         learnList:LearnParams[]
@@ -102,11 +102,10 @@
         draft:0,
         flag:true
     })
-    const previewEditorOptions = reactive({
-        initialValue:''
-    })
+    const previewText = ref('')
     const searchValue = ref('')
-    const previewDialogVisiable = ref(false)
+    const previewDrawerVisiable = ref(false)
+    const drawerTitle = ref('')
     const baseUrl = computed(()=>import.meta.env.VITE_GLOB_IMG_URL)
 
     const getLearnList = (query?:string)=>{
@@ -139,8 +138,13 @@
     }
 
     const handleWatch = (scope:Required<LearnParams>)=>{
-        previewEditorOptions.initialValue = scope.content
-        previewDialogVisiable.value = true
+        previewText.value = marked(scope.content)
+        drawerTitle.value = scope.title
+        previewDrawerVisiable.value = true
+    }
+    const drawerClosed = ()=>{
+        previewDrawerVisiable.value = false,
+        previewText.value = ''
     }
 
     const handleDelete = (scope:Required<LearnParams>)=>{
@@ -182,6 +186,9 @@
     }
     &-search{
         margin:10px 0px;
+    }
+    &-preview{
+        padding:0px 10px
     }
 }
 .m-learen-table-img{

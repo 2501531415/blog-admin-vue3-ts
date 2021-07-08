@@ -14,8 +14,13 @@ export const articleRoute:MenuRouteRecordRaw = {
             meta:{title:'文章整理',auth:'admin'}
         },
         {
+            path:'/article/manage/:id',
+            component:()=>import('@/views/article/articleForm.vue'),
+            meta:{title:'文章修改',auth:'admin',isHide:true}
+        },
+        {
             path:'/article/add',
-            component:()=>import('@/views/article/add.vue'),
+            component:()=>import('@/views/article/articleForm.vue'),
             meta:{title:'文章添加',auth:['admin','user']}
         }
     ]

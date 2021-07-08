@@ -64,7 +64,7 @@
     }
 </script>
 
-<style>
+<style scoped>
 .input-new-tag{
     width:90px;
     margin-left: 10px;

@@ -20,7 +20,8 @@ export interface ArticleParams{
 
 	// 最后修改日期
 	update_time?: string,
-    _id?:string
+    _id?:string,
+    id?:string
 }
 
 export interface ArticleListModel extends publicModel{
@@ -29,4 +30,8 @@ export interface ArticleListModel extends publicModel{
 
 export interface ArticlePublicModel extends publicModel{
 
+}
+
+export interface ArticleDetailModel extends publicModel{
+    detail:Required<ArticleParams>
 }

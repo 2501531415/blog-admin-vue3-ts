@@ -134,7 +134,7 @@
     }
 
     const handleEdit = (scope:Required<ArticleParams>)=>{
-        // router.push(`/learn/manage/${scope._id}`)
+        router.push(`/article/manage/${scope._id}`)
     }
 
     const handleWatch = (scope:Required<ArticleParams>)=>{

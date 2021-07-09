@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import pinia from '@/store'
-import {menuRoutes} from '@/router/routes'
+import {menuRoutes,unKnownRoute} from '@/router/routes'
 import { userStore } from "./user";
 import {Role} from '@/enum/permissionEnum'
 import type {MenuRouteRecordRaw} from '@/router/types'
@@ -30,6 +30,7 @@ export const permissionStore = defineStore({
         getAllowRoutes(){
             const routes = this.transformRoute(menuRoutes)
             this.allowRoutes = routes
+            routes.push(unKnownRoute)
             return routes
         },
         transformRoute(routes:MenuRouteRecordRaw[]){

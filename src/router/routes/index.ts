@@ -11,9 +11,10 @@ Object.keys(modules).forEach(item=>{
     menuRoutes.unshift(route)
 });
 
-const loginRoute:RouteRecordRaw = {
+export const loginRoute:RouteRecordRaw = {
     name:'login',
     path:pathEnum.LOGIN_PATH,
+    meta:{title:'login'},
     component:()=>import('@/views/system/login/index.vue')
 }
 
@@ -23,6 +24,27 @@ const layoutRoute:RouteRecordRaw = {
     redirect:'/dashboard',
 }
 
+const errorRoute:RouteRecordRaw = {
+    name:'404',
+    path:'/404',
+    component:()=>import('@/views/system/error/404.vue')
+}
+
+export const unKnownRoute:MenuRouteRecordRaw = {
+    name:'error',
+    path:'/:pathMatch(.*)*',
+    component:LAYOUT,
+    meta:{title:'error',auth:'admin'},
+    children:[
+        {
+            name:'error',
+            path:'/:pathMatch(.*)*',
+            component:()=>import('@/views/system/error/404.vue'),
+            meta:{title:'error',auth:'admin'},
+        }
+    ]
+}
+
 export const baseRoute:RouteRecordRaw[] = [
-    loginRoute,layoutRoute
+    loginRoute,layoutRoute,errorRoute
 ]

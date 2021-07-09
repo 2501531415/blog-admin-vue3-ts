@@ -5,14 +5,14 @@
       :key="item.name"
       :label="item.name"
       :name="item.path"
-      :closable="item.closable??true"
+      :closable="!item.closable"
     >
     </el-tab-pane>
   </el-tabs>
 </template>
 
 <script setup lang="ts">
-    import {defineProps,defineEmit} from 'vue'
+    import {defineProps,defineEmit,watch} from 'vue'
     import type {PropType} from 'vue'
     import type { TabsMenu } from '@router/types'
 
@@ -25,6 +25,10 @@
         type:Array as PropType<TabsMenu[]>,
         default:[]
       }
+    })
+
+    watch(()=>props.tabs,(value)=>{
+      console.log(value)
     })
     const emit = defineEmit(['removeTab','tabClick'])
     

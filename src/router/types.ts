@@ -5,6 +5,7 @@ export type Meta = {
     icon?:string,
     isHide?:Boolean
     closable?:boolean,
+    affix?:boolean
 }
 
 //重写meta的类型

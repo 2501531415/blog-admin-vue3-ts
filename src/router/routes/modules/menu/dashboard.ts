@@ -11,7 +11,7 @@ export const articleRoute:MenuRouteRecordRaw = {
         {
             path:'/dashboard/index',
             component:()=>import('@/views/dashboard/index.vue'),
-            meta:{title:'分析页',auth:['admin','user'],closable:false}
+            meta:{title:'分析页',auth:['admin','user'],closable:true,affix:true}
         },
     ]
 }

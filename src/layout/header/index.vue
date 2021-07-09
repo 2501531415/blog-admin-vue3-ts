@@ -24,7 +24,8 @@
 <script setup lang="ts">
     import { computed,watch,ref,reactive, onMounted } from 'vue'
     import { useRouter,useRoute } from 'vue-router'
-    import type { TabsMenu,Meta } from '@router/types'
+    import type { TabsMenu,Meta,MenuRouteRecordRaw } from '@router/types'
+    import type {RouteLocationNormalizedLoaded} from 'vue-router'
     import {settingStore} from '@/store/modules/setting'
     import { tabsStore } from '@/store/modules/tabs'
     import { permissionStore } from '@/store/modules/permission'
@@ -58,13 +59,19 @@
     }
     //init tab
     const initTab = ()=>{
-        const tab:TabsMenu = {
-            name:route.meta.title as string,
-            path:route.path,
-            meta:route.meta as Meta,
-            closable:route.meta.closable as boolean
-        }
-        tabs.addVisitRoute(tab)
+        const route = filtersInitTab(permission.allowRoutes)[0]
+        createTab(route)
+    }
+
+    //获取初始化tab
+    const filtersInitTab = (routes:MenuRouteRecordRaw[])=>{
+        let affix:MenuRouteRecordRaw[] = []
+        routes.forEach(item=>{
+            if(item.children && affix.length == 0){
+                affix = item.children.filter(item=>item.meta.affix)
+            }
+        })
+        return affix
     }
     //tab移除
     const removeTab = (path:string)=>{
@@ -105,18 +112,23 @@
         const { path:nextPath } = tabs.visitRoutes[index-1]
         router.push(nextPath)
     }
-    onMounted(()=>{
-        initTab()
-    })
-    watch(route,(route)=>{
+    const createTab = (route:RouteLocationNormalizedLoaded | MenuRouteRecordRaw)=>{
         breadcrumbList.value = permission.getParentList(route.path)
         const tab:TabsMenu = {
             name:route.meta.title as string,
             path:route.path,
-            meta:route.meta as Meta
+            meta:route.meta as Meta,
+            closable:route.meta.closable?true:false
         }
         tabs.addVisitRoute(tab)
         activeTab.value = route.path
+    }
+    onMounted(()=>{
+        initTab()
+        createTab(route)
+    })
+    watch(route,(route)=>{
+        createTab(route)
     })
 
 

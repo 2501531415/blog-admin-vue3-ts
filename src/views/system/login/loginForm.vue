@@ -54,23 +54,23 @@
     const loading = ref(false)
 
     const login = ()=>{
-        loading.value = true
-        loginForm.value.validate(async (isValid:Boolean)=>{
-            if(!isValid) return alert('error')
-            const userInfo = await user.login(state.info)
-            console.log(userInfo)
-            loading.value = false
-            if(userInfo){
-                await router.replace('/dashboard')
-                ElNotification({
-                    type:'success',
-                    title:'登录成功',
-                    message:`${userInfo.username},欢迎回来！`
-                })
-            }else{
-                ElMessage.error('登录失败！')
-            }
-        })
+        router.replace('/dashboard')
+        // loading.value = true
+        // loginForm.value.validate(async (isValid:Boolean)=>{
+        //     if(!isValid) return alert('error')
+        //     const userInfo = await user.login(state.info)
+        //     loading.value = false
+        //     if(userInfo){
+        //         await router.replace('/dashboard')
+        //         ElNotification({
+        //             type:'success',
+        //             title:'登录成功',
+        //             message:`${userInfo.username},欢迎回来！`
+        //         })
+        //     }else{
+        //         ElMessage.error('登录失败！')
+        //     }
+        // })
     }
 
     // const {data} = await test()

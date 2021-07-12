@@ -2,8 +2,14 @@ import type {ConfigEnv,UserConfig} from 'vite'
 import {resolve} from 'path'
 import vue from '@vitejs/plugin-vue'
 import styleImport from 'vite-plugin-style-import'
+import pkg from './package.json'
 
 export default ({command,mode}:ConfigEnv):UserConfig=>{
+  const { dependencies, devDependencies, name, version } = pkg;
+  const __APP_INFO__ = {
+    pkg: { dependencies, devDependencies, name, version },
+    lastBuildTime: new Date().getTime(),
+  };
   return {
     plugins:[
       vue(),
@@ -23,6 +29,9 @@ export default ({command,mode}:ConfigEnv):UserConfig=>{
         ]
       })
     ],
+    define:{
+      '__APP_INFO__':__APP_INFO__
+    },
     css:{
       preprocessorOptions:{
         less:{

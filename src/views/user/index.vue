@@ -76,7 +76,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="头像">
-                   <Upload :action="uploadUrl" :headers="uploadHeaders" name="inputFile" @success="uploadSuccess">
+                    <Upload :action="uploadUrl" :headers="uploadHeaders" name="inputFile" @success="uploadSuccess">
                         <template v-if="addOrEditUserForm.avatar_url">
                             <img :src="baseUrl + addOrEditUserForm.avatar_url" alt="" class="m-user-avatar">
                         </template>

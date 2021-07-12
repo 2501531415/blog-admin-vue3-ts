@@ -15,7 +15,7 @@ export const userStore = defineStore({
     state():userState{
         return {
             userInfo:null,
-            token:null,
+            token:'teetst',
             role:0
         }
     },

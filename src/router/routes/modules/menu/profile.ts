@@ -10,7 +10,7 @@ export const profileRoute:MenuRouteRecordRaw = {
     children:[
         {
             path:'/profile/index',
-            component:()=>import('@/views/user/index.vue'),
+            component:()=>import('@/views/profile/index.vue'),
             meta:{title:'个人中心',auth:['admin','user']}
         },
     ]

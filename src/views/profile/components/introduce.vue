@@ -38,7 +38,7 @@
             </el-form>
         </el-col>
         <el-col :span="12">
-            <Upload :action="uploadUrl" :headers="uploadHeaders" name="inputFile" width="150" @success="uploadSuccess">
+            <Upload :action="uploadUrl" :headers="uploadHeaders" name="inputFile" width="150" :border="false" @success="uploadSuccess">
                 <template v-if="info.avatar">
                     <img :src="baseUrl + info.avatar" alt="" class="m-user-avatar">
                     <el-button size="small" icon="el-icon-upload" type="primary">更新头像</el-button>

@@ -13,7 +13,7 @@
         :on-remove="handleAvatarRemove"
         :on-success="handleAvatarSuccess"
         :before-upload="beforeUpload"
-        :style="{'width':size,'height':size,'line-height':size}"
+        :style="{'width':size,'height':size}"
         :file-list="fileList"
         >
         <slot>

@@ -53,7 +53,7 @@
     import userEcharts from './echarts/userEcharts.vue'
     import powerEcharts from './echarts/powerEcharts.vue'
     import messageEcharts from './echarts/messageEcharts.vue'
-    
+    import echarts from '@/lib/echarts'
     const setting = settingStore()
 
     const viewRef = ref<typeof viewEcharts | null>(null)
@@ -62,17 +62,22 @@
     const messageRef = ref<typeof messageEcharts | null>(null)
     const powerRef = ref<typeof powerEcharts | null>(null)
 
-    const echartResize = ()=>{
-        unref(viewRef)?.resize()
-        unref(postRef)?.resize()
-        unref(userRef)?.resize()
-        unref(messageRef)?.resize()
-        unref(powerRef)?.resize()
+    const echartResize = (options?:echarts.ResizeOpts)=>{
+        unref(viewRef)?.resize(options)
+        unref(postRef)?.resize(options)
+        unref(userRef)?.resize(options)
+        unref(messageRef)?.resize(options)
+        unref(powerRef)?.resize(options)
     }
 
     watch(()=>setting.isCollapse,()=>{
-        console.log('我么')
-        echartResize()
+        const animation = {
+            duration:800,
+            delay:0,
+        }
+        setTimeout(()=>{
+            echartResize({animation})
+        },800)
     })
 
     window.addEventListener('resize',function(){

@@ -14,10 +14,10 @@
             tooltip: {
                 trigger: 'item'
             },
-            legend: {
-                orient: 'vertical',
-                left: 'left',
-            },
+            // legend: {
+            //     orient: 'vertical',
+            //     left: 'left',
+            // },
             series: [
                 {
                     name: '访问来源',

@@ -22,7 +22,6 @@ export const tabsStore = defineStore({
             if(!hasRoute){
                 this.visitRoutes.push(route)
             }
-            console.log(this.visitRoutes)
         },
         delVisitRoute(path:string){
             const index = this.visitRoutes.findIndex(item=>item.path == path)

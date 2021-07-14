@@ -29,7 +29,7 @@ export const permissionStore = defineStore({
     actions:{
         getAllowRoutes(){
             const routes = this.transformRoute(menuRoutes)
-            this.allowRoutes = routes
+            this.allowRoutes = this.transformRoute(menuRoutes)
             routes.push(unKnownRoute)
             return routes
         },

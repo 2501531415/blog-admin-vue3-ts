@@ -2,7 +2,7 @@
     <el-row class="m-total">
         <el-col :span="10" class="m-total-left">
             <div class="m-total-item">
-                <CountTo :startVal="0" :endVal="3000"/>
+                <CountTo :startVal="0" :endVal="total.views"/>
                 <div>
                     <span>浏览</span>
                 </div>
@@ -39,7 +39,7 @@
             </div>
             <div class="m-total-line"></div>
             <div class="m-total-item">
-                <CountTo :startVal="0" :endVal="1005"/>
+                <CountTo :startVal="0" :endVal="total.message"/>
                 <div>
                     <span>留言</span>
                 </div>
@@ -69,7 +69,37 @@
 </template>
 
 <script setup lang="ts">
-     import CountTo from '@/components/CountTo/index.vue'
+    import {defineProps} from 'vue'
+    import type {PropType} from 'vue'
+    import CountTo from '@/components/CountTo/index.vue'
+    type totalType = {
+        views:number,
+        comments:number,
+        likes:number,
+        article:number,
+        learn:number,
+        message:number,
+        draft:number,
+        post:number,
+
+    }
+    const props = defineProps({
+        total:{
+            type:Object as PropType<totalType>,
+            default:()=>{
+                return {
+                    views:0,
+                    comments:0,
+                    likes:0,
+                    article:0,
+                    learn:0,
+                    message:0,
+                    draft:0,
+                    post:0,
+                }
+            }
+        }
+    })
 
 
 </script>
@@ -103,6 +133,7 @@
             .flex();
             flex-direction: column;
             &-manage{
+                white-space: nowrap;
                 &:first-child{
                     margin-bottom: 10px;
                 }

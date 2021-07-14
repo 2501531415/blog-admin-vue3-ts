@@ -36,11 +36,11 @@
     },
     color: {
       type: String as PropType<string>,
-      require: false,
+      default:'#409eff'
     },
     size: {
       type: String as PropType<string>,
-      default:'20px'
+      default:'30px'
     },
     decimal:{
       type: String as PropType<string>,

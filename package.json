@@ -10,6 +10,7 @@
     "@toast-ui/editor": "^3.0.0",
     "axios": "^0.21.1",
     "dayjs": "^1.10.5",
+    "echarts": "^5.1.2",
     "element-plus": "^1.0.2-beta.48",
     "highlight.js": "^11.0.1",
     "marked": "^2.1.3",

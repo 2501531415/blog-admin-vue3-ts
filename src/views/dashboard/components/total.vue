@@ -1,67 +1,71 @@
 <template>
-    <div class="m-total">
-        <div class="m-total-left">
+    <el-row class="m-total">
+        <el-col :span="10" class="m-total-left">
             <div class="m-total-item">
                 <CountTo :startVal="0" :endVal="3000"/>
                 <div>
-                    <span>views</span>
+                    <span>浏览</span>
                 </div>
             </div>
             <div class="m-total-line"></div>
             <div class="m-total-item">
-                <CountTo :startVal="0" :endVal="3000"/>
+                <CountTo :startVal="0" :endVal="600"/>
                 <div>
-                    <span>views</span>
+                    <span>点赞</span>
                 </div>
             </div>
             <div class="m-total-line"></div>
             <div class="m-total-item">
-                <CountTo :startVal="0" :endVal="3000"/>
+                <CountTo :startVal="0" :endVal="500"/>
                 <div>
-                    <span>views</span>
+                    <span>评论</span>
                 </div>
             </div>
-        </div>
-        <div class="m-total-center">
-            <div class="m-total-item">
-                <CountTo :startVal="0" :endVal="3000"/>
+        </el-col>
+        <el-col :span="10" class="m-total-gutter">
+            <div class="m-total-center">
+                <div class="m-total-item">
+                <CountTo :startVal="0" :endVal="200"/>
                 <div>
-                    <span>views</span>
-                </div>
-            </div>
-            <div class="m-total-line"></div>
-            <div class="m-total-item">
-                <CountTo :startVal="0" :endVal="3000"/>
-                <div>
-                    <span>views</span>
+                    <span>文章</span>
                 </div>
             </div>
             <div class="m-total-line"></div>
             <div class="m-total-item">
-                <CountTo :startVal="0" :endVal="3000"/>
+                <CountTo :startVal="0" :endVal="300"/>
                 <div>
-                    <span>views</span>
-                </div>
-            </div>
-        </div>
-        <div class="m-total-right">
-            <div class="m-total-item">
-                <CountTo :startVal="0" :endVal="3000"/>
-                <div>
-                    <span>views</span>
+                    <span>笔记</span>
                 </div>
             </div>
             <div class="m-total-line"></div>
             <div class="m-total-item">
+                <CountTo :startVal="0" :endVal="1005"/>
                 <div>
-                    <span>10 admin</span>
-                </div>
-                <div>
-                    <span>20 admin</span>
+                    <span>留言</span>
                 </div>
             </div>
-        </div>
-    </div>
+            </div>
+        </el-col>
+        <el-col :span="4" class="m-total-right">
+            <div class="m-total-item">
+                <CountTo :startVal="0" :endVal="50"/>
+                <div>
+                    <span>账号</span>
+                </div>
+            </div>
+            <div class="m-total-line"></div>
+            <div class="m-total-item">
+                <div class="m-total-item-manage">
+                    <span>10</span>
+                    <span>管理</span>
+                </div>
+                <div class="m-total-item-manage">
+                    <span>40</span>
+                    <span>用户</span>
+                </div>
+            </div>
+        </el-col>
+    </el-row>
 </template>
 
 <script setup lang="ts">
@@ -79,23 +83,33 @@
     .common{
         .flex();
         background-color: #fff;
+        border-radius: 5px;
     }
     .m-total{
-        .flex();
         &-left{
-            flex:1;
             .common();
         }
         &-center{
             .common();
-            flex:1;
-            margin: 0px 20px;
         }
         &-right{
             .common();
         }
+        &-gutter{
+            padding:0px 10px;
+        }
         &-item{
             padding:40px 20px;
+            .flex();
+            flex-direction: column;
+            &-manage{
+                &:first-child{
+                    margin-bottom: 10px;
+                }
+                span{
+                    margin-right: 10px;
+                }
+            }
         }
         &-line{
             width: 1px;

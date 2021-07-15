@@ -1,12 +1,22 @@
 <template>
-    <div ref="powerRef"></div>
+    <div ref="powerRef" :style="{'width':width,'height':height}"></div>
 </template>
 
 <script setup lang="ts">
-    import {ref,onMounted,useContext} from 'vue'
-    import type {Ref} from 'vue'
+    import {ref,onMounted,useContext,defineProps} from 'vue'
+    import type {Ref,PropType} from 'vue'
     import {useEcharts} from '@/hooks/useEcharts'
     const {expose} = useContext()
+    const props = defineProps({
+        width:{
+            type:String as PropType<string>,
+            default:'100%'
+        },
+        height:{
+            type:String as PropType<string>,
+            default:'300px'
+        }
+    })
     const powerRef = ref<HTMLDivElement | null>(null)
     const {setOptions,resize} =  useEcharts(powerRef as Ref<HTMLDivElement>)
 

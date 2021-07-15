@@ -9,14 +9,14 @@
             </div>
             <div class="m-total-line"></div>
             <div class="m-total-item">
-                <CountTo :startVal="0" :endVal="600"/>
+                <CountTo :startVal="0" :endVal="total.likes"/>
                 <div>
                     <span>点赞</span>
                 </div>
             </div>
             <div class="m-total-line"></div>
             <div class="m-total-item">
-                <CountTo :startVal="0" :endVal="500"/>
+                <CountTo :startVal="0" :endVal="total.comments"/>
                 <div>
                     <span>评论</span>
                 </div>
@@ -25,14 +25,14 @@
         <el-col :span="10" class="m-total-gutter">
             <div class="m-total-center">
                 <div class="m-total-item">
-                <CountTo :startVal="0" :endVal="200"/>
+                <CountTo :startVal="0" :endVal="total.article"/>
                 <div>
                     <span>文章</span>
                 </div>
             </div>
             <div class="m-total-line"></div>
             <div class="m-total-item">
-                <CountTo :startVal="0" :endVal="300"/>
+                <CountTo :startVal="0" :endVal="total.learn"/>
                 <div>
                     <span>笔记</span>
                 </div>
@@ -48,7 +48,7 @@
         </el-col>
         <el-col :span="4" class="m-total-right">
             <div class="m-total-item">
-                <CountTo :startVal="0" :endVal="50"/>
+                <CountTo :startVal="0" :endVal="total.admin + total.user"/>
                 <div>
                     <span>账号</span>
                 </div>
@@ -56,12 +56,12 @@
             <div class="m-total-line"></div>
             <div class="m-total-item">
                 <div class="m-total-item-manage">
-                    <span>10</span>
+                    <span>{{total.admin}}</span>
                     <span>管理</span>
                 </div>
                 <div class="m-total-item-manage">
                     <span>40</span>
-                    <span>用户</span>
+                    <span>{{total.user}}</span>
                 </div>
             </div>
         </el-col>
@@ -69,8 +69,8 @@
 </template>
 
 <script setup lang="ts">
-    import {defineProps} from 'vue'
-    import type {PropType} from 'vue'
+    import {reactive} from 'vue'
+    import {getDashboardTotalApi} from '@/api/dashboard'
     import CountTo from '@/components/CountTo/index.vue'
     type totalType = {
         views:number,
@@ -79,26 +79,36 @@
         article:number,
         learn:number,
         message:number,
-        draft:number,
-        post:number,
+        admin:number,
+        user:number,
 
     }
-    const props = defineProps({
-        total:{
-            type:Object as PropType<totalType>,
-            default:()=>{
-                return {
-                    views:0,
-                    comments:0,
-                    likes:0,
-                    article:0,
-                    learn:0,
-                    message:0,
-                    draft:0,
-                    post:0,
-                }
-            }
-        }
+    
+    const total = reactive<totalType>({
+        views:0,
+        comments:0,
+        likes:0,
+        article:0,
+        learn:0,
+        message:0,
+        admin:0,
+        user:0,
+    })
+    getDashboardTotalApi().then(res=>{
+        console.log(res)
+        res.data.article_meta_total.forEach(item=>{
+            total.views += item.views_total
+            total.comments += item.comments_total
+            total.likes += item.likes_total
+        })
+        res.data.learn_meta_total.forEach(item=>{
+            total.views += item.views_total
+            total.comments += item.comments_total
+            total.likes += item.likes_total
+        })
+        total.message = res.data.message_total
+        total.article = res.data.article_total
+        total.learn = res.data.learn_total
     })
 
 

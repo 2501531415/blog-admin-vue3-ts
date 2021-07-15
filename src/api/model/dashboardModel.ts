@@ -13,6 +13,17 @@ export interface DashboardTotalParams{
     message_total:number
 }
 
+interface DashboardLoginValue{
+    _id:string,
+    value:number
+}
+export interface DashboardLoginParams{
+    loginValue:DashboardLoginValue[]
+}
 export interface DashboardTotalModel extends publicModel{
     data:DashboardTotalParams
+}
+
+export interface DashboardLoginModel extends publicModel{
+    data:DashboardLoginParams
 }

@@ -14,7 +14,6 @@ export function useEcharts(elRef:Ref<HTMLDivElement>){
         nextTick(()=>{
             if(!echartsInstance) initEecharts()
             echartsInstance?.setOption(options)
-            return echartsInstance
         })
     }
     function resize(options?:echarts.ResizeOpts){

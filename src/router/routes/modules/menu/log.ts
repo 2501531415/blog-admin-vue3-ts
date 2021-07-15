@@ -10,7 +10,7 @@ export const logRoute:MenuRouteRecordRaw = {
     children:[
         {
             path:'/log/login',
-            component:()=>import('@/views/user/index.vue'),
+            component:()=>import('@/views/log/index.vue'),
             meta:{title:'登录日志',auth:'admin'}
         }
     ]

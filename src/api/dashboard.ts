@@ -1,8 +1,12 @@
 import http from "@/utils/http";
-import {DashboardTotalModel} from './model/dashboardModel'
+import {DashboardTotalModel,DashboardLoginModel} from './model/dashboardModel'
 
-enum Dashboard{total='/dashboard/total'}
+enum Dashboard{TOTAL='/dashboard/total',LOGIN='/dashboard/login'}
 
 export function getDashboardTotalApi(){
-    return http.get<DashboardTotalModel>(Dashboard.total)
+    return http.get<DashboardTotalModel>(Dashboard.TOTAL)
+}
+
+export function getDashboardLoginApi(){
+    return http.get<DashboardLoginModel>(Dashboard.LOGIN)
 }

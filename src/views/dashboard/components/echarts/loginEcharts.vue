@@ -1,14 +1,26 @@
 <template>
-    <div ref="viewRef"></div>
+    <div ref="loginRef" :style="{'width':width,'height':height}"></div>
 </template>
 
 <script setup lang="ts">
-    import {ref,onMounted,useContext} from 'vue'
-    import type {Ref} from 'vue'
+    import {ref,onMounted,useContext,defineProps} from 'vue'
+    import type {Ref,PropType} from 'vue'
     import {useEcharts} from '@/hooks/useEcharts'
     const {expose} = useContext()
-    const viewRef = ref<HTMLDivElement | null>(null)
-    const {setOptions,resize} =  useEcharts(viewRef as Ref<HTMLDivElement>)
+
+    const props = defineProps({
+        width:{
+            type:String as PropType<string>,
+            default:'100%'
+        },
+        height:{
+            type:String as PropType<string>,
+            default:'300px'
+        }
+    })
+    const loginRef = ref<HTMLDivElement | null>(null)
+    const {setOptions,resize} =  useEcharts(loginRef as Ref<HTMLDivElement>)
+
     onMounted(()=>{
         setOptions({
             tooltip: {
@@ -42,12 +54,13 @@
                     name: '直接访问',
                     type: 'bar',
                     barWidth: '60%',
-                    data: [10, 52, 200, 334, 390, 330, 220]
+                    data: [2,4,5,4]
                 }
             ]
         })
     })
     expose({
+        setOptions,
         resize
     })
 

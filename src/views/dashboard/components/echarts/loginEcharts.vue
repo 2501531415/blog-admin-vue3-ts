@@ -54,7 +54,7 @@
                     name: '直接访问',
                     type: 'bar',
                     barWidth: '60%',
-                    data: [2,4,5,4]
+                    data: []
                 }
             ]
         })

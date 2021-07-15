@@ -48,7 +48,7 @@
 <script setup lang="ts">
     import {watch,ref,unref} from 'vue'
     import {settingStore} from '@/store/modules/setting'
-    import {getDashboardLoginApi} from '@/api/dashboard'
+    import {getDashboardLoginApi,getDashboardMessageApi,getDashboardPostApi} from '@/api/dashboard'
     import postEcharts from './echarts/postEcharts.vue'
     import loginEcharts from './echarts/loginEcharts.vue'
     import userEcharts from './echarts/userEcharts.vue'
@@ -63,17 +63,69 @@
     const messageRef = ref<typeof messageEcharts | null>(null)
     const powerRef = ref<typeof powerEcharts | null>(null)
 
-    // getDashboardLoginApi().then(res=>{
-        
-    // })
+    //登录情况
+    getDashboardLoginApi().then(res=>{
+        const loginArr:number[] = []
+        res.data.forEach(item=>{
+            loginArr.push(item.value)
+        })
+        loginRef.value?.setOptions({
+            series: [
+                {
+                    data:loginArr
+                }
+            ]
+        })
+    })
 
+    getDashboardMessageApi().then(res=>{
+        const messageArr:number[] = []
+        res.data.forEach(item=>{
+            messageArr.push(item.value)
+        })
+        messageRef.value?.setOptions({
+            series: [
+                {
+                    data:messageArr
+                }
+            ]
+        })
+    })
+
+    getDashboardPostApi('2021-7-1').then(res=>{
+        const xData:number[] = []
+        const articleArr:number[] = []
+        const learnArr:number[] = []
+        res.data.articleValue.forEach(item=>{
+            articleArr.push(item.value)
+            xData.push(item._id)
+        })
+        res.data.learnValue.forEach(item=>{
+            learnArr.push(item.value)
+        })
+        postRef.value?.setOptions({
+            xAxis:[
+                {
+                    data:xData
+                }
+            ],
+            series:[
+                {
+                    data:articleArr
+                },
+                {
+                    data:learnArr
+                }
+            ]
+        })
+    })
     //侧边栏变化
     watch(()=>setting.isCollapse,()=>{
         const animation = {
             duration:800,
             delay:0,
         }
-        setTimeout(()=>{
+        setTimeout(()=>{ 
             echartResize({animation})
         },800)
     })

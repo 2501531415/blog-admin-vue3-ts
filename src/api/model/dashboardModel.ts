@@ -10,20 +10,26 @@ export interface DashboardTotalParams{
     article_meta_total:DashboardTotalMeta[],
     learn_total:number,
     article_total:number,
-    message_total:number
+    message_total:number,
+    user_total:number,
+    admin_total:number
 }
 
-interface DashboardLoginValue{
-    _id:string,
+interface DashboardEchartsValue{
+    _id:number,
     value:number
 }
-export interface DashboardLoginParams{
-    loginValue:DashboardLoginValue[]
+export interface DashboardPostParams{
+    [index:string]:DashboardEchartsValue[]
 }
 export interface DashboardTotalModel extends publicModel{
     data:DashboardTotalParams
 }
 
-export interface DashboardLoginModel extends publicModel{
-    data:DashboardLoginParams
+export interface DashboardEchartsModel extends publicModel{
+    data:DashboardEchartsValue[]
+}
+
+export interface DashboardPostModel extends publicModel{
+    data:DashboardPostParams
 }

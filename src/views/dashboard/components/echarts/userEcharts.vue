@@ -53,6 +53,7 @@
     })
 
     expose({
+        setOptions,
         resize
     })
 

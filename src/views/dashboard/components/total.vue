@@ -60,8 +60,8 @@
                     <span>管理</span>
                 </div>
                 <div class="m-total-item-manage">
-                    <span>40</span>
                     <span>{{total.user}}</span>
+                    <span>用户</span>
                 </div>
             </div>
         </el-col>
@@ -109,6 +109,8 @@
         total.message = res.data.message_total
         total.article = res.data.article_total
         total.learn = res.data.learn_total
+        total.user = res.data.user_total
+        total.admin = res.data.admin_total
     })
 
 

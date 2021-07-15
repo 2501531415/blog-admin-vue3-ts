@@ -62,6 +62,7 @@
     })
 
     expose({
+        setOptions,
         resize
     })
 

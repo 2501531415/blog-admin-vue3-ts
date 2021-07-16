@@ -25,7 +25,7 @@
                 </el-col>
             </el-row>
         </div>
-        <el-table :data="learn.learnList" border empty-text="无用户内容" stripe height="calc(100vh - 370px)" style="width: 100%">
+        <el-table :data="learn.learnList" v-loading="tableLoading" border empty-text="无用户内容" stripe height="calc(100vh - 370px)" style="width: 100%">
             <el-table-column label="封面">
                 <template #default="scope">
                     <img :src="baseUrl + scope.row.img_url" alt="" class="m-learen-table-img">
@@ -106,10 +106,12 @@
     const searchValue = ref('')
     const previewDrawerVisiable = ref(false)
     const drawerTitle = ref('')
+    const tableLoading = ref(true)
     const baseUrl = computed(()=>import.meta.env.VITE_GLOB_IMG_URL)
 
     const getLearnList = (query?:string)=>{
         getLearnListApi(query).then(res=>{
+            tableLoading.value = false
             learn.learnList = res.data
            if(show.flag){
                 show.all = res.data.length

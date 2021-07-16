@@ -3,7 +3,11 @@
         <el-col :span="6">
             <el-card>
                 <template #header>
-                    <span>后台登录情况</span>
+                    <div>
+                        <i class="el-icon-user"></i>
+                        <span>后台登录情况</span>
+                    </div>
+                    <el-tag type="success">周</el-tag>
                 </template>
                 <login-echarts ref="loginRef"/>
             </el-card>
@@ -11,7 +15,11 @@
         <el-col :span="6">
             <el-card>
                 <template #header>
-                    <span>博客网站留言</span>
+                    <div>
+                        <i class="el-icon-message"></i>
+                        <span>博客网站留言</span>
+                    </div>
+                    <el-tag type="success">周</el-tag>
                 </template>
                 <message-echarts ref="messageRef"/>
             </el-card>
@@ -19,15 +27,22 @@
         <el-col :span="6">
             <el-card>
                 <template #header>
-                    <span>用户新增</span>
+                    <div>
+                        <i class="el-icon-user"></i>
+                        <span>用户新增</span>
+                    </div>
+                    <Select :option="nearYearData" :selectValue="nearYearData[0]" @change="acountSelectChange"/>
                 </template>
-                <user-echarts ref="userRef"/>
+                <acount-echarts ref="acountRef"/>
             </el-card>
         </el-col>
         <el-col :span="6">
             <el-card>
                 <template #header>
-                    <span>前端能力</span>
+                    <div>
+                        <i class="el-icon-wind-power"></i>
+                        <span>前端能力</span>
+                    </div>
                 </template>
                 <power-echarts ref="powerRef"/>
             </el-card>
@@ -37,7 +52,11 @@
         <el-col :span="24">
             <el-card>
                 <template #header>
-                    <span>文章发布</span>
+                    <div>
+                        <i class="el-icon-document"></i>
+                        <span>文章发布</span>
+                    </div>  
+                    <Select :option="monthData" :selectValue="monthData[0]" @change="postSelectChange"/>
                 </template>
                 <post-echarts ref="postRef"/>
             </el-card>
@@ -46,23 +65,44 @@
 </template>
 
 <script setup lang="ts">
-    import {watch,ref,unref} from 'vue'
+    import {watch,ref,unref,computed} from 'vue'
     import {settingStore} from '@/store/modules/setting'
-    import {getDashboardLoginApi,getDashboardMessageApi,getDashboardPostApi} from '@/api/dashboard'
+    import {getDashboardLoginApi,getDashboardMessageApi,getDashboardPostApi,getDashoboardAcountApi} from '@/api/dashboard'
     import postEcharts from './echarts/postEcharts.vue'
     import loginEcharts from './echarts/loginEcharts.vue'
-    import userEcharts from './echarts/userEcharts.vue'
+    import acountEcharts from './echarts/acountEcharts.vue'
     import powerEcharts from './echarts/powerEcharts.vue'
     import messageEcharts from './echarts/messageEcharts.vue'
+    import Select from '@/components/element/select/index.vue'
     import echarts from '@/lib/echarts'
     const setting = settingStore()
 
     const loginRef = ref<typeof loginEcharts | null>(null)
     const postRef = ref<typeof postEcharts | null>(null)
-    const userRef = ref<typeof userEcharts | null>(null)
+    const acountRef = ref<typeof acountEcharts | null>(null)
     const messageRef = ref<typeof messageEcharts | null>(null)
     const powerRef = ref<typeof powerEcharts | null>(null)
+    
 
+    const nearYearData = computed(()=>{
+        const date = new Date()
+        const year = date.getFullYear()
+        const fullYear:string[] = []
+        for(let i=0;i<3;i++){
+            fullYear.push(`${year-i}年`)
+        }
+        return fullYear
+    })
+    const monthData = computed(()=>{
+        const date = new Date()
+        const year = date.getFullYear()
+        const month = date.getMonth()+1
+        const nowFullMonth:string[] = []
+        for(let i=1;i<month+1;i++){
+            nowFullMonth.push(`${year}-${i}-01`)
+        }
+        return nowFullMonth.reverse()
+    })
     //登录情况
     getDashboardLoginApi().then(res=>{
         const loginArr:number[] = []
@@ -77,7 +117,7 @@
             ]
         })
     })
-
+    //留言统计
     getDashboardMessageApi().then(res=>{
         const messageArr:number[] = []
         res.data.forEach(item=>{
@@ -91,34 +131,70 @@
             ]
         })
     })
+    //发布统计方法
+    const getDashboardPost = (month:string)=>{
+        getDashboardPostApi(month).then(res=>{
+            const xData:string[] = []
+            const articleArr:number[] = []
+            const learnArr:number[] = []
+            res.data.articleValue.forEach(item=>{
+                articleArr.push(item.value)
+                xData.push(item._id+'号')
+            })
+            res.data.learnValue.forEach(item=>{
+                learnArr.push(item.value)
+            })
+            postRef.value?.setOptions({
+                xAxis:[
+                    {
+                        data:xData
+                    }
+                ],
+                series:[
+                    {
+                        data:articleArr
+                    },
+                    {
+                        data:learnArr
+                    }
+                ]
+            })
+        })
+    }
+    //发布统计
+    getDashboardPost(monthData.value[0])
 
-    getDashboardPostApi('2021-7-1').then(res=>{
-        const xData:number[] = []
-        const articleArr:number[] = []
-        const learnArr:number[] = []
-        res.data.articleValue.forEach(item=>{
-            articleArr.push(item.value)
-            xData.push(item._id)
-        })
-        res.data.learnValue.forEach(item=>{
-            learnArr.push(item.value)
-        })
-        postRef.value?.setOptions({
-            xAxis:[
-                {
-                    data:xData
-                }
-            ],
-            series:[
-                {
-                    data:articleArr
-                },
-                {
-                    data:learnArr
-                }
-            ]
-        })
-    })
+    //select change
+    const postSelectChange = (value:string)=>{
+        getDashboardPost(value)
+    }
+
+    // const getDashboardAcount = ()=>{
+    //     getDashoboardAcountApi('2021-7-1').then(res=>{
+    //         const acountArr:Record<string,string | number>[] = []
+
+    //         res.data.forEach((item)=>{
+    //             if(item._id == 0){
+    //                 acountArr.push({name:'超级管理员',value:item.value})
+    //             }else if(item._id == 1){
+    //                 acountArr.push({name:'管理员',value:item.value})
+    //             }else{
+    //                 acountArr.push({name:'用户',value:item.value})
+    //             }
+    //         })
+    //         acountRef.value?.setOptions({
+    //             series: [
+    //                 {
+    //                     data: acountArr,
+    //                 }
+    //             ]
+    //         })
+    //     })
+    // }
+
+    const acountSelectChange = ()=>{
+        
+    }
     //侧边栏变化
     watch(()=>setting.isCollapse,()=>{
         const animation = {
@@ -137,7 +213,7 @@
     const echartResize = (options?:echarts.ResizeOpts)=>{
         unref(loginRef)?.resize(options)
         unref(postRef)?.resize(options)
-        unref(userRef)?.resize(options)
+        unref(acountRef)?.resize(options)
         unref(messageRef)?.resize(options)
         unref(powerRef)?.resize(options)
     }
@@ -147,7 +223,22 @@
 
 
 <style lang="less" scoped>
+    .flex{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
     .m-analysis{
         margin: 10px 0px;
+    }
+    i{
+        color: #409EFF;
+        margin-right: 10px;
+        font-size: 18px;
+    }
+    :deep(.el-card__header){
+        height: 60px;
+        padding: 10px 20px;
+        .flex()
     }
 </style>

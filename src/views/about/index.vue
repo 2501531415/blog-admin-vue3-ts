@@ -9,9 +9,10 @@
 
 <script setup lang="ts">
     import {ref,computed} from 'vue'
-    import Description from '@/components/element/descriptions/index.vue'
-    // console.log(__APP_INFO__)
     import type {DescType} from '@/components/element/descriptions/types'
+    import Description from '@/components/element/descriptions/index.vue'
+    import {formate} from '@/lib/dayjs'
+    
     const prodDesc = computed(()=>{
         const prodList:DescType[] = []
         const {dependencies} = __APP_INFO__.pkg
@@ -33,6 +34,6 @@
     const projectDesc = computed(()=>{
         const {name,version} = __APP_INFO__.pkg
         const {lastBuildTime} = __APP_INFO__
-        return [{label:'项目名称',value:name},{label:'版本号',value:version},{label:'最后更新时间',value:lastBuildTime}]
+        return [{label:'项目名称',value:name},{label:'版本号',value:version},{label:'最后更新时间',value:formate(lastBuildTime)}]
     })
 </script>

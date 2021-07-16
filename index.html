@@ -7,75 +7,76 @@
     <title>Vite App</title>
   </head>
   <body>
-    <div id="app"></div>
-    <style>
-        .loading{
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%,-50%);
-        }
-        .loading-ul{
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            height: 45px;
-        }
-        .loading-ul li{
-            width: 20px;
-            background-color: #278ebf;
-            margin-right: 5px;
-        }
-        .loading-ul .first{
-            animation: first 0.5s ease infinite alternate;
-        }
-        .loading-ul .seconds{
-            animation: seconds 0.5s ease infinite alternate;
-        }
-        .loading-ul .three{
-            animation: three 0.5s ease infinite alternate;
-        }
-        @keyframes first{
-            0%{
-                height: 15px;
+    <div id="app">
+        <style>
+            .loading{
+                position: fixed;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%,-50%);
             }
-            50%{
-                height:30px;
-            }
-            100%{
-                height:45px;
-            }
-        }
-        @keyframes seconds{
-            0%{
-                height: 30px;
-            }
-            50%{
-                height:45px;
-            }
-            100%{
-                height:15px;
-            }
-        }
-        @keyframes three{
-            0%{
+            .loading-ul{
+                list-style: none;
+                display: flex;
+                justify-content: center;
+                align-items: flex-end;
                 height: 45px;
             }
-            50%{
-                height:15px;
+            .loading-ul li{
+                width: 20px;
+                background-color: #278ebf;
+                margin-right: 5px;
             }
-            100%{
-                height:30px;
+            .loading-ul .first{
+                animation: first 0.5s ease infinite alternate;
             }
-        }
-    </style>
-    <div class="loading">
-      <ul class="loading-ul">
-        <li class="first"></li>
-        <li class="seconds"></li>
-        <li class="three"></li>
-      </ul>
+            .loading-ul .seconds{
+                animation: seconds 0.5s ease infinite alternate;
+            }
+            .loading-ul .three{
+                animation: three 0.5s ease infinite alternate;
+            }
+            @keyframes first{
+                0%{
+                    height: 15px;
+                }
+                50%{
+                    height:30px;
+                }
+                100%{
+                    height:45px;
+                }
+            }
+            @keyframes seconds{
+                0%{
+                    height: 30px;
+                }
+                50%{
+                    height:45px;
+                }
+                100%{
+                    height:15px;
+                }
+            }
+            @keyframes three{
+                0%{
+                    height: 45px;
+                }
+                50%{
+                    height:15px;
+                }
+                100%{
+                    height:30px;
+                }
+            }
+        </style>
+        <div class="loading">
+          <ul class="loading-ul">
+            <li class="first"></li>
+            <li class="seconds"></li>
+            <li class="three"></li>
+          </ul>
+        </div>
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>

@@ -8,7 +8,7 @@ import cache from '@/utils/cache'
 interface userState{
     userInfo:UserInfo | null,
     token:null | string,
-    role:number | null
+    role:number
 }
 export const userStore = defineStore({
     id:'user',
@@ -16,7 +16,7 @@ export const userStore = defineStore({
         return {
             userInfo:null,
             token:null,
-            role:null
+            role:3
         }
     },
     getters:{
@@ -26,7 +26,7 @@ export const userStore = defineStore({
         getUserInfo():UserInfo{
             return this.userInfo || JSON.parse(cache.get(USERINFO_KEY) as string)
         },
-        getRole():number | null{
+        getRole():number{
             return this.role
         }
     },

@@ -1,5 +1,5 @@
 <template>
-    <div ref="acountRef" :style="{'width':width,'height':height}"></div>
+    <div ref="accountRef" :style="{'width':width,'height':height}"></div>
 </template>
 
 <script setup lang="ts">
@@ -17,8 +17,8 @@
             default:'300px'
         }
     })
-    const acountRef = ref<HTMLDivElement | null>(null)
-    const {setOptions,resize} =  useEcharts(acountRef as Ref<HTMLDivElement>)
+    const accountRef = ref<HTMLDivElement | null>(null)
+    const {setOptions,resize} =  useEcharts(accountRef as Ref<HTMLDivElement>)
     onMounted(()=>{
         setOptions( {
             tooltip: {

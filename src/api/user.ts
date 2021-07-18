@@ -12,7 +12,8 @@ enum User{
 export interface UserInfo{
     admin_id:string,
     avatar:string,
-    username:string
+    username:string,
+    role:number
 }
 
 interface LoginModel{

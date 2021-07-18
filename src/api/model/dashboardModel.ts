@@ -17,7 +17,8 @@ export interface DashboardTotalParams{
 
 interface DashboardEchartsValue{
     _id:number,
-    value:number
+    value:number,
+    type?:string
 }
 export interface DashboardPostParams{
     [index:string]:DashboardEchartsValue[]

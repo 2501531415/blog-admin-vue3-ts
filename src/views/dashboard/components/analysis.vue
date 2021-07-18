@@ -31,9 +31,9 @@
                         <i class="el-icon-user"></i>
                         <span>用户新增</span>
                     </div>
-                    <Select :option="nearYearData" :selectValue="nearYearData[0]" @change="acountSelectChange"/>
+                    <Select :option="nearYearData" :selectValue="nearYearData[0]" @change="accountSelectChange"/>
                 </template>
-                <acount-echarts ref="acountRef"/>
+                <account-echarts ref="accountRef"/>
             </el-card>
         </el-col>
         <el-col :span="6">
@@ -67,10 +67,10 @@
 <script setup lang="ts">
     import {watch,ref,unref,computed} from 'vue'
     import {settingStore} from '@/store/modules/setting'
-    import {getDashboardLoginApi,getDashboardMessageApi,getDashboardPostApi,getDashoboardAcountApi} from '@/api/dashboard'
+    import {getDashboardLoginApi,getDashboardMessageApi,getDashboardPostApi,getDashboardAccountApi} from '@/api/dashboard'
     import postEcharts from './echarts/postEcharts.vue'
     import loginEcharts from './echarts/loginEcharts.vue'
-    import acountEcharts from './echarts/acountEcharts.vue'
+    import accountEcharts from './echarts/accountEcharts.vue'
     import powerEcharts from './echarts/powerEcharts.vue'
     import messageEcharts from './echarts/messageEcharts.vue'
     import Select from '@/components/element/select/index.vue'
@@ -79,7 +79,7 @@
 
     const loginRef = ref<typeof loginEcharts | null>(null)
     const postRef = ref<typeof postEcharts | null>(null)
-    const acountRef = ref<typeof acountEcharts | null>(null)
+    const accountRef = ref<typeof accountEcharts | null>(null)
     const messageRef = ref<typeof messageEcharts | null>(null)
     const powerRef = ref<typeof powerEcharts | null>(null)
     
@@ -89,10 +89,11 @@
         const year = date.getFullYear()
         const fullYear:string[] = []
         for(let i=0;i<3;i++){
-            fullYear.push(`${year-i}年`)
+            fullYear.push(`${year-i}`)
         }
         return fullYear
     })
+
     const monthData = computed(()=>{
         const date = new Date()
         const year = date.getFullYear()
@@ -162,6 +163,7 @@
         })
     }
     //发布统计
+    console.log(monthData.value[0])
     getDashboardPost(monthData.value[0])
 
     //select change
@@ -169,31 +171,34 @@
         getDashboardPost(value)
     }
 
-    // const getDashboardAcount = ()=>{
-    //     getDashoboardAcountApi('2021-7-1').then(res=>{
-    //         const acountArr:Record<string,string | number>[] = []
+    const getDashboardAccount = (year:number)=>{
+        getDashboardAccountApi(year).then(res=>{
+            const accountArr:Record<string,string | number>[] = []
 
-    //         res.data.forEach((item)=>{
-    //             if(item._id == 0){
-    //                 acountArr.push({name:'超级管理员',value:item.value})
-    //             }else if(item._id == 1){
-    //                 acountArr.push({name:'管理员',value:item.value})
-    //             }else{
-    //                 acountArr.push({name:'用户',value:item.value})
-    //             }
-    //         })
-    //         acountRef.value?.setOptions({
-    //             series: [
-    //                 {
-    //                     data: acountArr,
-    //                 }
-    //             ]
-    //         })
-    //     })
-    // }
+            res.data.forEach((item)=>{
+                if(item.type == 'admin' && item._id == 0){
+                    accountArr.push({name:'超级管理员',value:item.value})
+                }else if(item.type == 'admin' && item._id == 1){
+                    accountArr.push({name:'管理员',value:item.value})
+                }else{
+                    accountArr.push({name:'用户',value:item.value})
+                }
+            })
+            console.log(accountArr)
+            accountRef.value?.setOptions({
+                series: [
+                    {
+                        data: accountArr,
+                    }
+                ]
+            })
+        })
+    }
 
-    const acountSelectChange = ()=>{
-        
+    getDashboardAccount(parseInt(nearYearData.value[0]))
+
+    const accountSelectChange = (value:string)=>{
+        getDashboardAccount(parseInt(value))
     }
     //侧边栏变化
     watch(()=>setting.isCollapse,()=>{
@@ -213,7 +218,7 @@
     const echartResize = (options?:echarts.ResizeOpts)=>{
         unref(loginRef)?.resize(options)
         unref(postRef)?.resize(options)
-        unref(acountRef)?.resize(options)
+        unref(accountRef)?.resize(options)
         unref(messageRef)?.resize(options)
         unref(powerRef)?.resize(options)
     }

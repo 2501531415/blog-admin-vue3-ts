@@ -8,7 +8,7 @@ import cache from '@/utils/cache'
 interface userState{
     userInfo:UserInfo | null,
     token:null | string,
-    role:number
+    role:number | null
 }
 export const userStore = defineStore({
     id:'user',
@@ -16,7 +16,7 @@ export const userStore = defineStore({
         return {
             userInfo:null,
             token:null,
-            role:0
+            role:null
         }
     },
     getters:{
@@ -26,7 +26,7 @@ export const userStore = defineStore({
         getUserInfo():UserInfo{
             return this.userInfo || JSON.parse(cache.get(USERINFO_KEY) as string)
         },
-        getRole():number{
+        getRole():number | null{
             return this.role
         }
     },
@@ -36,6 +36,7 @@ export const userStore = defineStore({
                 const {token,adminInfo} = await login(params)
                 this.setUserInfo(adminInfo)
                 this.setToken(token)
+                this.setRule(adminInfo.role)
                 return Promise.resolve(adminInfo)
             }catch(err){
                 return Promise.reject(err)
@@ -48,6 +49,9 @@ export const userStore = defineStore({
         setUserInfo(info:UserInfo){
             this.userInfo = info
             cache.set(USERINFO_KEY,info)
+        },
+        setRule(role:number){
+            this.role = role
         },
         cleanToken(){
             this.token = null

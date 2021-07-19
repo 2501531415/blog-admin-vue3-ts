@@ -163,7 +163,6 @@
         })
     }
     //发布统计
-    console.log(monthData.value[0])
     getDashboardPost(monthData.value[0])
 
     //select change

@@ -16,7 +16,7 @@ export const userStore = defineStore({
         return {
             userInfo:null,
             token:null,
-            role:3
+            role:2
         }
     },
     getters:{
@@ -27,7 +27,7 @@ export const userStore = defineStore({
             return this.userInfo || JSON.parse(cache.get(USERINFO_KEY) as string)
         },
         getRole():number{
-            return this.role
+            return JSON.parse(cache.get(USERINFO_KEY) as string).role??this.role
         }
     },
     actions:{

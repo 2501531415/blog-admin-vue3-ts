@@ -34,8 +34,8 @@ export const permissionStore = defineStore({
             return routes
         },
         transformRoute(routes:MenuRouteRecordRaw[]){
-            const {role} = userStore()
-            const roleName = Role[role]
+            const {getRole} = userStore()
+            const roleName = Role[getRole]
             let allRoutes:MenuRouteRecordRaw[] = []
             routes.forEach(route=>{
                 if(route.meta.auth.includes(roleName) || route.meta.auth == roleName){

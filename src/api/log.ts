@@ -1,5 +1,5 @@
 import http from "@/utils/http";
-import {LoginLogModel,LogpublicModel,LoginLogParams} from './model/logModel'
+import {LoginLogModel,LogDeleteModel,LoginLogParams} from './model/logModel'
 
 enum Log{LOGIN='/log',LOGINDELETE='/log/delete'}
 export function getLoginLogApi(page:number,limit:number){
@@ -7,5 +7,5 @@ export function getLoginLogApi(page:number,limit:number){
 }
 
 export function deleteLoginLogApi(list:string){
-    return http.post<LogpublicModel>(Log.LOGINDELETE,{list})
+    return http.post<LogDeleteModel>(Log.LOGINDELETE,{list})
 }

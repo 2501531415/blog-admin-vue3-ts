@@ -14,6 +14,11 @@ export interface LoginLogModel extends publicModel{
     total:number
 }
 
-export interface LogpublicModel extends publicModel{
-
+interface deleteSuccessModel{
+    n:number,
+    deletedCount:number,
+    ok:number
+}
+export interface LogDeleteModel extends publicModel{
+    data:deleteSuccessModel
 }

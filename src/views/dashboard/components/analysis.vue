@@ -183,7 +183,6 @@
                     accountArr.push({name:'用户',value:item.value})
                 }
             })
-            console.log(accountArr)
             accountRef.value?.setOptions({
                 series: [
                     {

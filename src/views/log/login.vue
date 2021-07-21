@@ -6,7 +6,7 @@
         </div>
         <el-table ref="loginLogTableRef" :data="log.loginLogData" tooltip-effect="dark" border @selection-change="handleSelectionChange" @select-all="selectAll">
             <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="admin_id" label="日志ID">
+            <el-table-column prop="admin_id" label="用户ID">
                 
             </el-table-column>
             <el-table-column prop="admin_name" label="用户名"></el-table-column>

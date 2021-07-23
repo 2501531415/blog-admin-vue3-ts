@@ -241,7 +241,7 @@
     }
     //修改
     const handleEdit = (scoped:UserList)=>{
-        userDialogStatus.value = 'emit'
+        userDialogStatus.value = 'edit'
         EditId.value = scoped._id
         addOrEditUserDialogVisible.value = true
         const {username,password,type,phone, email,avatar_url} = scoped

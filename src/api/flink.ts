@@ -2,7 +2,7 @@ import http from "@/utils/http";
 import { FriendsLinkModel,FriendsLinkParams} from "./model/flinkModel";
 import { publicModel } from "./model";
 
-enum FriendsLink{LIST='/friends',ADD='/friends/add',EDIT    ='/friends/update',DELETE='/friends/delete'}
+enum FriendsLink{LIST='/link',ADD='/link/add',EDIT='/link/update',DELETE='/link/delete'}
 
 export function getFriendsLink(){
     http.get<FriendsLinkModel>(FriendsLink.LIST)

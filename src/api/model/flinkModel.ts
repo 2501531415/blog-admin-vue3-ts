@@ -5,7 +5,7 @@ export interface FriendsLinkParams{
     name:string,
     position:number,
     logo:string,
-    introdute:string,
+    introduce:string,
     poster_email:string,
     type:string
 }

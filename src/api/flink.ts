@@ -4,18 +4,18 @@ import { publicModel } from "./model";
 
 enum FriendsLink{LIST='/link',ADD='/link/add',EDIT='/link/update',DELETE='/link/delete'}
 
-export function getFriendsLink(){
-    http.get<FriendsLinkModel>(FriendsLink.LIST)
+export function getFriendsLinkApi(){
+    return http.get<FriendsLinkModel>(FriendsLink.LIST)
 }
 
-export function addFriendsLink(params:FriendsLinkParams){
-    http.post<publicModel>(FriendsLink.ADD,params)
+export function addFriendsLinkApi(params:FriendsLinkParams){
+    return http.post<publicModel>(FriendsLink.ADD,params)
 }
 
-export function editFriendsLink(id:string,params:FriendsLinkParams){
-    http.post<publicModel>(`${FriendsLink.EDIT}/${id}`,params)
+export function editFriendsLinkApi(id:string,params:FriendsLinkParams){
+    return http.post<publicModel>(`${FriendsLink.EDIT}/${id}`,params)
 }
 
-export function deleteFriendsLink(id:string){
-    http.post<publicModel>(`${FriendsLink.DELETE}/${id}`)
+export function deleteFriendsLinkApi(id:string){
+    return http.post<publicModel>(`${FriendsLink.DELETE}/${id}`)
 }

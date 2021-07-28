@@ -7,3 +7,8 @@ export function phoneValidate(value:any):boolean{
     const phoneReg = /^1[3-9]\d{9}$/
     return phoneReg.test(value)
 }
+
+export function addressValidate(value:any):boolean{
+    const addressReg = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
+    return addressReg.test(value)
+}
